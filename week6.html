@@ -1,0 +1,189 @@
+<!-- الأسبوع السادس -->
+                        <div class="page" id="week6">
+                            <h1>📊 الأسبوع السادس: التحليل الاستكشافي للبيانات (EDA)</h1>
+
+                            <h2>ما هو EDA؟</h2>
+                            <p><span class="keyword">Exploratory Data Analysis (EDA)</span> هي عملية فحص وتحليل البيانات
+                                لاكتشاف الأنماط والعلاقات.</p>
+
+                            <h2>اليوم 26: توزيع البيانات (Data Distributions)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day26-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day26-exp" class="tab-content active">
+                                <h3>الإحصائيات الوصفية (Summary Statistics)</h3>
+                                <div class="code-block">
+                                    df.describe() # إحصائيات أساسية
+                                    # count: عدد القيم
+                                    # mean: المتوسط
+                                    # std: الانحراف المعياري
+                                    # min: القيمة الأدنى
+                                    # 25%, 50%, 75%: الربعيات
+                                    # max: القيمة الأقصى
+                                </div>
+
+                                <h3>الرسوم البيانية (Histograms)</h3>
+                                <p>تظهر توزيع القيم في فئات.</p>
+                                <div class="code-block">
+                                    import matplotlib.pyplot as plt
+
+                                    plt.figure(figsize=(10, 6))
+                                    df['age'].hist(bins=30, edgecolor='black')
+                                    plt.title('توزيع العمر')
+                                    plt.xlabel('العمر')
+                                    plt.ylabel('التكرار')
+                                    plt.show()
+                                </div>
+
+                                <h3>أنواع التوزيعات</h3>
+
+                                <h4>1️⃣ التوزيع الطبيعي (Normal Distribution)</h4>
+                                <p>جرس الشكل، متماثل حول المتوسط.</p>
+
+                                <h4>2️⃣ التوزيع المنحرف لليمين (Right-Skewed)</h4>
+                                <p>ذيل طويل على اليمين، مثل الدخل.</p>
+
+                                <h4>3️⃣ التوزيع المنحرف لليسار (Left-Skewed)</h4>
+                                <p>ذيل طويل على اليسار.</p>
+
+                                <h4>4️⃣ التوزيع متعدد الأوضاع (Multimodal)</h4>
+                                <p>عدة قمم، يشير إلى مجموعات مختلفة.</p>
+
+                                <h3>الانحراف والتفرطح (Skewness & Kurtosis)</h3>
+                                <div class="code-block">
+                                    from scipy.stats import skew, kurtosis
+
+                                    skewness = skew(df['salary'])
+                                    kurt = kurtosis(df['salary'])
+
+                                    print(f"الانحراف: {skewness}")
+                                    print(f"التفرطح: {kurt}")
+                                </div>
+                            </div>
+
+                            <h2>اليوم 27: الرسوم البيانية والمقارنات</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day27-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day27-exp" class="tab-content active">
+                                <h3>Boxplots (الرسوم الصندوقية)</h3>
+                                <p>تظهر التوزيع والقيم الشاذة.</p>
+                                <div class="code-block">
+                                    import seaborn as sns
+
+                                    plt.figure(figsize=(10, 6))
+                                    sns.boxplot(x='city', y='salary', data=df)
+                                    plt.title('توزيع الراتب حسب المدينة')
+                                    plt.show()
+                                </div>
+
+                                <h3>مقارنة المجموعات</h3>
+                                <div class="code-block">
+                                    # مقارنة الرواتب حسب القسم
+                                    df.groupby('department')['salary'].describe()
+
+                                    # رسم مقارنة
+                                    sns.boxplot(x='department', y='salary', data=df)
+                                    plt.show()
+                                </div>
+
+                                <h3>Violin Plots</h3>
+                                <p>تجمع بين boxplot و histogram.</p>
+                                <div class="code-block">
+                                    sns.violinplot(x='city', y='salary', data=df)
+                                    plt.show()
+                                </div>
+                            </div>
+
+                            <h2>اليوم 28: التجميع والتجميع (Grouping & Aggregation)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day28-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day28-exp" class="tab-content active">
+                                <h3>groupby الأساسي</h3>
+                                <div class="code-block">
+                                    # متوسط الراتب حسب المدينة
+                                    df.groupby('city')['salary'].mean()
+
+                                    # عدد الموظفين حسب القسم
+                                    df.groupby('department').size()
+
+                                    # إحصائيات متعددة
+                                    df.groupby('city')['salary'].agg(['mean', 'std', 'min', 'max'])
+                                </div>
+
+                                <h3>Aggregation متقدم</h3>
+                                <div class="code-block">
+                                    # تجميع متعدد الأعمدة
+                                    df.groupby(['city', 'department']).agg({
+                                    'salary': ['mean', 'count'],
+                                    'age': 'mean'
+                                    })
+                                </div>
+
+                                <h3>Simpson's Paradox (مفارقة سيمبسون)</h3>
+                                <p>ظاهرة حيث تتغير الاتجاهات عند تجميع البيانات.</p>
+                                <div class="example-box">
+                                    <strong>مثال:</strong> قد يبدو أن الراتب أعلى في المدينة A عموماً، لكن عند مقارنة
+                                    نفس الوظيفة، يكون أعلى في المدينة B!
+                                </div>
+                            </div>
+
+                            <h2>اليوم 29: الارتباطات (Correlations)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day29-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day29-exp" class="tab-content active">
+                                <h3>معامل الارتباط (Correlation Coefficient)</h3>
+                                <p>يقيس قوة العلاقة بين متغيرين.</p>
+                                <div class="code-block">
+                                    # حساب الارتباط
+                                    correlation = df['age'].corr(df['salary'])
+                                    print(f"الارتباط: {correlation}")
+
+                                    # مصفوفة الارتباط
+                                    corr_matrix = df[['age', 'salary', 'experience']].corr()
+                                    print(corr_matrix)
+                                </div>
+
+                                <h3>تفسير الارتباط</h3>
+                                <ul>
+                                    <li>🟢 <strong>+1:</strong> ارتباط إيجابي تام (كلما زاد أحدهما زاد الآخر)</li>
+                                    <li>🟡 <strong>0:</strong> لا يوجد ارتباط</li>
+                                    <li>🔴 <strong>-1:</strong> ارتباط سلبي تام (كلما زاد أحدهما قل الآخر)</li>
+                                </ul>
+
+                                <h3>Heatmap (خريطة الحرارة)</h3>
+                                <div class="code-block">
+                                    import seaborn as sns
+
+                                    plt.figure(figsize=(10, 8))
+                                    sns.heatmap(df.corr(), annot=True, cmap='coolwarm', center=0)
+                                    plt.title('مصفوفة الارتباط')
+                                    plt.show()
+                                </div>
+
+                                <h3>تحذير: الارتباط ≠ السببية</h3>
+                                <div class="warning-box">
+                                    <strong>⚠️ تحذير مهم:</strong> وجود ارتباط بين متغيرين لا يعني أن أحدهما يسبب الآخر!
+                                    <br>مثال: عدد الآيس كريم المباع يرتبط بعدد الغرقى، لكن الآيس كريم لا يسبب الغرق!
+                                    <br>السبب: كلاهما يزداد في الصيف (متغير ثالث).
+                                </div>
+
+                                <h3>Multicollinearity (التعددية الخطية)</h3>
+                                <p>عندما يكون هناك ارتباط قوي جداً بين متغيرات مستقلة.</p>
+                                <div class="code-block">
+                                    # البحث عن ارتباطات قوية
+                                    high_corr = corr_matrix[corr_matrix > 0.9]
+                                    print(high_corr)
+                                </div>
+                            </div>
+                        </div>
