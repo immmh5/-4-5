@@ -1,0 +1,2816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Complete - علم البيانات الشامل</title>
+    <!-- Highlight.js CDN -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5aa0;
+            --secondary: #4CAF50;
+            --accent: #FF5722;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f5f5f5;
+            --text-dark: #333;
+            --text-light: #f0f0f0;
+            --border: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .sidebar {
+            background: #2a2a2a;
+        }
+
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .sidebar-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light-bg);
+            font-size: 14px;
+        }
+
+        body.dark-mode .sidebar-item {
+            background: #3a3a3a;
+        }
+
+        .sidebar-item:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sidebar-item.active {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        .content {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .content {
+            background: #2a2a2a;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 32px;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        h4 {
+            color: var(--primary);
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .keyword {
+            background: linear-gradient(120deg, #ffd700, #ffed4e);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .code-block {
+            background: #282c34;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            direction: ltr;
+            font-size: 13px;
+            color: #abb2bf;
+        }
+
+        .code-block pre {
+            margin: 0;
+            background: none;
+        }
+
+        .code-block code {
+            color: #abb2bf;
+            background: none;
+            padding: 0;
+        }
+
+        body.dark-mode .code-block {
+            background: #282c34;
+            color: #abb2bf;
+        }
+
+        /* Syntax Highlighting Colors */
+        .hljs {
+            background: #282c34 !important;
+            color: #abb2bf !important;
+        }
+
+        .hljs-attr,
+        .hljs-attribute {
+            color: #e06c75;
+        }
+
+        .hljs-literal,
+        .hljs-number {
+            color: #d19a66;
+        }
+
+        .hljs-string {
+            color: #98c379;
+        }
+
+        .hljs-title,
+        .hljs-section {
+            color: #61afef;
+        }
+
+        .hljs-built_in {
+            color: #e06c75;
+        }
+
+        .hljs-keyword {
+            color: #c678dd;
+        }
+
+        .hljs-function {
+            color: #61afef;
+        }
+
+        .hljs-comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .hljs-variable {
+            color: #e06c75;
+        }
+
+        .hljs-name {
+            color: #61afef;
+        }
+
+        .example-box {
+            background: #e3f2fd;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        body.dark-mode .example-box {
+            background: #1a3a52;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        body.dark-mode .warning-box {
+            background: #3a2a1a;
+            color: #ffb74d;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-dark);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .tab-btn {
+            color: var(--text-light);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .feature-table th {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: right;
+        }
+
+        .feature-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .feature-table td {
+            border-bottom-color: #555;
+        }
+
+        .feature-table tr:hover {
+            background: var(--light-bg);
+        }
+
+        body.dark-mode .feature-table tr:hover {
+            background: #3a3a3a;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .home-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-card h3 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .home-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        ul {
+            margin: 15px 0;
+            margin-right: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                height: auto;
+            }
+
+            .sidebar-item {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🐍 Data Science</div>
+            <div>علم البيانات الشامل</div>
+        </div>
+        <div class="header-content">
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 وضع داكن</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>📚 الأسابيع</h3>
+                <div class="sidebar-item active" data-page="home" onclick="showPage('home')">🏠 الرئيسية</div>
+                <div class="sidebar-item" data-page="week1" onclick="showPage('week1')">🐍 الأسبوع 1</div>
+                <div class="sidebar-item" data-page="week2" onclick="showPage('week2')">🧹 الأسبوع 2</div>
+                <div class="sidebar-item" data-page="week3" onclick="showPage('week3')">🧹 الأسبوع 3</div>
+                <div class="sidebar-item" data-page="week4" onclick="showPage('week4')">📊 الأسبوع 4</div>
+                <div class="sidebar-item" data-page="week5" onclick="showPage('week5')">📊 الأسبوع 5</div>
+                <div class="sidebar-item" data-page="week6" onclick="showPage('week6')">📊 الأسبوع 6</div>
+            </div>
+
+            <div class="content">
+                <!-- الصفحة الرئيسية -->
+                <div id="home" class="page active">
+                    <h1>🎯 مرحباً بك في دورة علم البيانات الشاملة</h1>
+                    <p style="font-size: 18px; margin: 20px 0;">تعلم جميع المهارات الأساسية لتصبح محترفاً في علم
+                        البيانات والتعلم الآلي. من البايثون المتقدم إلى تنظيف البيانات والتحليل الاستكشافي.</p>
+
+                    <div class="home-grid">
+                        <div class="home-card" onclick="showPage('week1')">
+                            <h3>الأسبوع الأول</h3>
+                            <p>Advanced Python for AI</p>
+                            <p>تعلم بايثون متقدم للذكاء الاصطناعي</p>
+                        </div>
+                        <div class="home-card" onclick="showPage('week2')">
+                            <h3>الأسبوع الثاني</h3>
+                            <p>Data Cleaning I</p>
+                            <p>تنظيف البيانات والقيم المفقودة</p>
+                        </div>
+                        <div class="home-card" onclick="showPage('week3')">
+                            <h3>الأسبوع الثالث</h3>
+                            <p>Data Cleaning II</p>
+                            <p>تقنيات متقدمة في تنظيف البيانات</p>
+                        </div>
+                        <div class="home-card" onclick="showPage('week4')">
+                            <h3>الأسبوع الرابع</h3>
+                            <p>Feature Engineering I</p>
+                            <p>هندسة الميزات الأساسية</p>
+                        </div>
+                        <div class="home-card" onclick="showPage('week5')">
+                            <h3>الأسبوع الخامس</h3>
+                            <p>Feature Engineering II</p>
+                            <p>تقنيات متقدمة في هندسة الميزات</p>
+                        </div>
+                        <div class="home-card" onclick="showPage('week6')">
+                            <h3>الأسبوع السادس</h3>
+                            <p>Exploratory Data Analysis</p>
+                            <p>التحليل الاستكشافي للبيانات</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الأسبوع الأول -->
+                <div id="week1" class="page">
+                    <h1>🐍 الأسبوع الأول: Python متقدم للذكاء الاصطناعي</h1>
+
+                    <h2>لماذا Python للذكاء الاصطناعي؟</h2>
+                    <p>Python هي اللغة الأولى في مجال علم البيانات والتعلم الآلي. السبب؟</p>
+                    <ul>
+                        <li>📚 <strong>مكتبات ضخمة:</strong> NumPy, pandas, TensorFlow, PyTorch, scikit-learn</li>
+                        <li>📝 <strong>صيغة واضحة:</strong> سهل القراءة والفهم</li>
+                        <li>👥 <strong>مجتمع قوي:</strong> ملايين المطورين والموارد</li>
+                        <li>⚡ <strong>تطوير سريع:</strong> Jupyter notebooks للنماذج الأولية</li>
+                    </ul>
+
+                    <h2>اليوم 1: مراجعة Python الأساسية</h2>
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab(event, 'week1-day1-exp')">الشرح</button>
+                        <button class="tab-btn" onclick="switchTab(event, 'week1-day1-ex')">أمثلة</button>
+                    </div>
+
+                    <div id="week1-day1-exp" class="tab-content active">
+                        <h3>أنواع البيانات الأساسية</h3>
+                        <p>كل برنامج Python يبدأ بفهم أنواع البيانات الأساسية:</p>
+
+                        <h4>1️⃣ الأعداد الصحيحة (Integer)</h4>
+                        <p>تمثل الأرقام الكاملة بدون فاصلة عشرية.</p>
+                        <div class="code-block">
+                            age = 25
+                            epochs = 100
+                            batch_size = 32
+                        </div>
+
+                        <h4>2️⃣ الأعداد العشرية (Float)</h4>
+                        <p>تمثل الأرقام مع فاصلة عشرية.</p>
+                        <div class="code-block">
+                            learning_rate = 0.001
+                            accuracy = 0.95
+                            price = 19.99
+                        </div>
+
+                        <h4>3️⃣ النصوص (String)</h4>
+                        <p>تمثل سلاسل من الأحرف.</p>
+                        <div class="code-block">
+                            model_name = "neural_network"
+                            message = "Hello AI"
+                            dataset = "MNIST"
+                        </div>
+
+                        <h4>4️⃣ القيم المنطقية (Boolean)</h4>
+                        <p>تمثل True أو False فقط.</p>
+                        <div class="code-block">
+                            is_trained = True
+                            is_valid = False
+                            use_gpu = True
+                        </div>
+
+                        <h3>المتغيرات والتخصيص</h3>
+                        <p>المتغير هو حاوية تخزن قيمة معينة. في Python، لا تحتاج إلى تحديد نوع البيانات مسبقاً.</p>
+                        <div class="code-block">
+                            # تخصيص متغيرات
+                            x = 10 # عدد صحيح
+                            y = 3.14 # عدد عشري
+                            name = "Ahmed" # نص
+                            is_active = True # قيمة منطقية
+
+                            # Python يكتشف النوع تلقائياً!
+                            print(type(x)) # <class 'int'>
+                                print(type(y)) # <class 'float'>
+                                    print(type(name)) # <class 'str'>
+                        </div>
+
+                        <h3>القوائم (Lists)</h3>
+                        <p><span class="keyword">Lists</span> هي مجموعة من العناصر مرتبة ومتغيرة.</p>
+                        <div class="code-block">
+                            # إنشاء قائمة
+                            numbers = [1, 2, 3, 4, 5]
+                            names = ["Ahmed", "Fatima", "Ali"]
+                            mixed = [1, "text", 3.14, True]
+
+                            # الوصول إلى العناصر
+                            first = numbers[0] # 1
+                            last = numbers[-1] # 5
+
+                            # إضافة عنصر
+                            numbers.append(6) # [1, 2, 3, 4, 5, 6]
+
+                            # حذف عنصر
+                            numbers.remove(3) # [1, 2, 4, 5, 6]
+                        </div>
+
+                        <h3>حلقات التكرار (Loops)</h3>
+                        <p>تستخدم لتكرار عملية معينة عدة مرات.</p>
+                        <div class="code-block">
+                            # حلقة for
+                            for i in range(5):
+                            print(i) # يطبع 0, 1, 2, 3, 4
+
+                            # حلقة for على قائمة
+                            for name in names:
+                            print(f"Hello {name}")
+
+                            # حلقة while
+                            count = 0
+                            while count < 5: print(count) count +=1 </div>
+
+                                <h3>List Comprehension (الفهم الشامل)</h3>
+                                <p>طريقة قوية وموجزة لإنشاء قوائم جديدة.</p>
+                                <div class="code-block">
+                                    # الطريقة التقليدية
+                                    squares = []
+                                    for i in range(5):
+                                    squares.append(i ** 2)
+                                    # النتيجة: [0, 1, 4, 9, 16]
+
+                                    # باستخدام List Comprehension
+                                    squares = [i ** 2 for i in range(5)]
+                                    # النتيجة: [0, 1, 4, 9, 16]
+
+                                    # مع شرط
+                                    even_squares = [i ** 2 for i in range(10) if i % 2 == 0]
+                                    # النتيجة: [0, 4, 16, 36, 64]
+                                </div>
+
+                                <div class="warning-box">
+                                    <strong>💡 نصيحة مهمة:</strong> List Comprehension أسرع وأكثر كفاءة من الحلقات
+                                    التقليدية. استخدمها قدر الإمكان!
+                                </div>
+                        </div>
+
+                        <div id="week1-day1-ex" class="tab-content">
+                            <h3>أمثلة عملية</h3>
+
+                            <h4>مثال 1: حساب مربع الأعداد</h4>
+                            <div class="example-box">
+                                <strong>المشكلة:</strong> لديك قائمة من الأعداد، تريد حساب مربع كل عدد
+                                <br><br>
+                                <strong>الحل:</strong>
+                                <div class="code-block">
+                                    numbers = [1, 2, 3, 4, 5]
+                                    squares = [x ** 2 for x in numbers]
+                                    print(squares) # [1, 4, 9, 16, 25]
+                                </div>
+                            </div>
+
+                            <h4>مثال 2: تصفية الأعداد الزوجية</h4>
+                            <div class="example-box">
+                                <strong>المشكلة:</strong> استخرج الأعداد الزوجية فقط من القائمة
+                                <br><br>
+                                <strong>الحل:</strong>
+                                <div class="code-block">
+                                    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    even = [x for x in numbers if x % 2 == 0]
+                                    print(even) # [2, 4, 6, 8, 10]
+                                </div>
+                            </div>
+
+                            <h4>مثال 3: تحويل النصوص إلى أحرف كبيرة</h4>
+                            <div class="example-box">
+                                <strong>المشكلة:</strong> حول جميع الأسماء إلى أحرف كبيرة
+                                <br><br>
+                                <strong>الحل:</strong>
+                                <div class="code-block">
+                                    names = ["ahmed", "fatima", "ali"]
+                                    uppercase = [name.upper() for name in names]
+                                    print(uppercase) # ['AHMED', 'FATIMA', 'ALI']
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2>اليوم 2: الدوال (Functions)</h2>
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab(event, 'week1-day2-exp')">الشرح</button>
+                            <button class="tab-btn" onclick="switchTab(event, 'week1-day2-ex')">أمثلة</button>
+                        </div>
+
+                        <div id="week1-day2-exp" class="tab-content active">
+                            <h3>ما هي الدوال؟</h3>
+                            <p>الدالة <span class="keyword">Function</span> هي مجموعة من الأوامر مجمعة معاً لتنفيذ مهمة
+                                معينة.</p>
+
+                            <h3>بناء الدالة الأساسي</h3>
+                            <div class="code-block">
+                                def function_name(parameter1, parameter2):
+                                # جسم الدالة
+                                result = parameter1 + parameter2
+                                return result # إرجاع النتيجة
+
+                                # استدعاء الدالة
+                                answer = function_name(5, 3)
+                                print(answer) # 8
+                            </div>
+
+                            <h3>أنواع المعاملات</h3>
+
+                            <h4>1️⃣ معاملات موضعية (Positional)</h4>
+                            <div class="code-block">
+                                def greet(first_name, last_name):
+                                return f"Hello {first_name} {last_name}"
+
+                                # يجب تمرير المعاملات بنفس الترتيب
+                                result = greet("Ahmed", "Ali") # "Hello Ahmed Ali"
+                            </div>
+
+                            <h4>2️⃣ معاملات بقيم افتراضية (Default)</h4>
+                            <div class="code-block">
+                                def greet(name, greeting="Hello"):
+                                return f"{greeting} {name}"
+
+                                result1 = greet("Ahmed") # "Hello Ahmed"
+                                result2 = greet("Ahmed", "Hi") # "Hi Ahmed"
+                            </div>
+
+                            <h4>3️⃣ معاملات مسماة (Keyword)</h4>
+                            <div class="code-block">
+                                def create_model(name, layers=3, activation="relu"):
+                                return f"Model: {name}, Layers: {layers}, Activation: {activation}"
+
+                                # يمكن تمرير المعاملات بأي ترتيب
+                                result = create_model(activation="sigmoid", name="CNN", layers=5)
+                            </div>
+
+                            <h3>Scope (نطاق المتغيرات)</h3>
+                            <p>المتغيرات داخل الدالة لا يمكن الوصول إليها خارجها.</p>
+                            <div class="code-block">
+                                def my_function():
+                                local_var = 10 # متغير محلي
+                                return local_var
+
+                                print(my_function()) # 10
+                                print(local_var) # خطأ! المتغير غير معرّف خارج الدالة
+                            </div>
+
+                            <h3>Decorators (المزخرفات)</h3>
+                            <p><span class="keyword">Decorators</span> هي دوال تعدّل سلوك دالة أخرى.</p>
+                            <div class="code-block">
+                                def my_decorator(func):
+                                def wrapper():
+                                print("قبل استدعاء الدالة")
+                                func()
+                                print("بعد استدعاء الدالة")
+                                return wrapper
+
+                                @my_decorator
+                                def say_hello():
+                                print("مرحباً!")
+
+                                say_hello()
+                                # النتيجة:
+                                # قبل استدعاء الدالة
+                                # مرحباً!
+                                # بعد استدعاء الدالة
+                            </div>
+                        </div>
+
+                        <div id="week1-day2-ex" class="tab-content">
+                            <h3>أمثلة عملية على الدوال</h3>
+
+                            <h4>مثال 1: دالة حساب المتوسط</h4>
+                            <div class="example-box">
+                                <div class="code-block">
+                                    def calculate_average(numbers):
+                                    """حساب متوسط قائمة من الأعداد"""
+                                    if len(numbers) == 0:
+                                    return 0
+                                    return sum(numbers) / len(numbers)
+
+                                    scores = [85, 90, 78, 92, 88]
+                                    avg = calculate_average(scores)
+                                    print(f"المتوسط: {avg}") # المتوسط: 86.6
+                                </div>
+                            </div>
+
+                            <h4>مثال 2: دالة معالجة البيانات</h4>
+                            <div class="example-box">
+                                <div class="code-block">
+                                    def normalize_data(values, min_val=0, max_val=1):
+                                    """تطبيع البيانات إلى نطاق معين"""
+                                    data_min = min(values)
+                                    data_max = max(values)
+                                    normalized = [(x - data_min) / (data_max - data_min) * (max_val - min_val) + min_val
+                                    for x in values]
+                                    return normalized
+
+                                    data = [10, 20, 30, 40, 50]
+                                    normalized = normalize_data(data)
+                                    print(normalized) # [0.0, 0.25, 0.5, 0.75, 1.0]
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2>اليوم 3: Lambda و .apply()</h2>
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab(event, 'week1-day3-exp')">الشرح</button>
+                        </div>
+
+                        <div id="week1-day3-exp" class="tab-content active">
+                            <h3>دوال Lambda (الدوال المجهولة)</h3>
+                            <p><span class="keyword">Lambda</span> هي دالة صغيرة بدون اسم.</p>
+                            <div class="code-block">
+                                # الصيغة العامة
+                                lambda arguments: expression
+
+                                # مثال بسيط
+                                square = lambda x: x ** 2
+                                print(square(5)) # 25
+
+                                # مع معاملات متعددة
+                                add = lambda x, y: x + y
+                                print(add(3, 4)) # 7
+                            </div>
+
+                            <h3>استخدام Lambda مع map()</h3>
+                            <p>تطبيق دالة على كل عنصر في قائمة.</p>
+                            <div class="code-block">
+                                numbers = [1, 2, 3, 4, 5]
+                                squared = list(map(lambda x: x ** 2, numbers))
+                                print(squared) # [1, 4, 9, 16, 25]
+                            </div>
+
+                            <h3>استخدام Lambda مع filter()</h3>
+                            <p>تصفية العناصر بناءً على شرط.</p>
+                            <div class="code-block">
+                                numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                even = list(filter(lambda x: x % 2 == 0, numbers))
+                                print(even) # [2, 4, 6, 8, 10]
+                            </div>
+
+                            <h3>pandas .apply() - معالجة البيانات</h3>
+                            <p>تطبيق دالة على كل صف أو عمود في DataFrame.</p>
+                            <div class="code-block">
+                                import pandas as pd
+
+                                df = pd.DataFrame({
+                                'name': ['Ahmed', 'Fatima', 'Ali'],
+                                'age': [25, 30, 28],
+                                'salary': [5000, 6000, 5500]
+                                })
+
+                                # تطبيق دالة على عمود
+                                df['age_group'] = df['age'].apply(lambda x: 'Young' if x < 30 else 'Senior' ) # النتيجة:
+                                    # name age salary age_group # 0 Ahmed 25 5000 Young # 1 Fatima 30 6000 Senior # 2
+                                    Ali 28 5500 Young </div>
+                            </div>
+
+                            <h2>اليوم 4: القواميس (Dictionaries)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week1-day4-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week1-day4-exp" class="tab-content active">
+                                <h3>ما هي القواموس؟</h3>
+                                <p><span class="keyword">Dictionary</span> هي مجموعة من أزواج المفتاح-القيمة.</p>
+                                <div class="code-block">
+                                    # إنشاء قاموس
+                                    person = {
+                                    'name': 'Ahmed',
+                                    'age': 25,
+                                    'city': 'Riyadh',
+                                    'is_active': True
+                                    }
+
+                                    # الوصول إلى القيم
+                                    print(person['name']) # Ahmed
+                                    print(person['age']) # 25
+
+                                    # إضافة عنصر جديد
+                                    person['email'] = 'ahmed@example.com'
+
+                                    # حذف عنصر
+                                    del person['is_active']
+                                </div>
+
+                                <h3>قواموس متداخلة (Nested)</h3>
+                                <div class="code-block">
+                                    student = {
+                                    'name': 'Ahmed',
+                                    'grades': {
+                                    'math': 90,
+                                    'english': 85,
+                                    'science': 92
+                                    },
+                                    'contact': {
+                                    'email': 'ahmed@example.com',
+                                    'phone': '0501234567'
+                                    }
+                                    }
+
+                                    # الوصول إلى القيم المتداخلة
+                                    print(student['grades']['math']) # 90
+                                    print(student['contact']['email']) # ahmed@example.com
+                                </div>
+
+                                <h3>Dictionary Comprehension</h3>
+                                <div class="code-block">
+                                    # إنشاء قاموس من قائمة
+                                    numbers = [1, 2, 3, 4, 5]
+                                    squares_dict = {x: x ** 2 for x in numbers}
+                                    print(squares_dict)
+                                    # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+                                    # مع شرط
+                                    even_squares = {x: x ** 2 for x in numbers if x % 2 == 0}
+                                    print(even_squares)
+                                    # {2: 4, 4: 16}
+                                </div>
+
+                                <h3>التكرار على القاموس</h3>
+                                <div class="code-block">
+                                    config = {'learning_rate': 0.001, 'epochs': 100, 'batch_size': 32}
+
+                                    # التكرار على المفاتيح
+                                    for key in config:
+                                    print(key) # learning_rate, epochs, batch_size
+
+                                    # التكرار على القيم
+                                    for value in config.values():
+                                    print(value) # 0.001, 100, 32
+
+                                    # التكرار على الأزواج
+                                    for key, value in config.items():
+                                    print(f"{key}: {value}")
+                                </div>
+                            </div>
+
+                            <h2>اليوم 5: JSON ومعالجة الملفات</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week1-day5-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week1-day5-exp" class="tab-content active">
+                                <h3>ما هو JSON؟</h3>
+                                <p><span class="keyword">JSON</span> (JavaScript Object Notation) هو صيغة لتخزين ومشاركة
+                                    البيانات.</p>
+                                <div class="code-block">
+                                    {
+                                    "name": "Ahmed",
+                                    "age": 25,
+                                    "city": "Riyadh",
+                                    "skills": ["Python", "Machine Learning", "Data Science"],
+                                    "is_active": true
+                                    }
+                                </div>
+
+                                <h3>قراءة وكتابة JSON في Python</h3>
+                                <div class="code-block">
+                                    import json
+
+                                    # كتابة JSON إلى ملف
+                                    data = {
+                                    'name': 'Ahmed',
+                                    'age': 25,
+                                    'skills': ['Python', 'ML']
+                                    }
+
+                                    with open('data.json', 'w') as f:
+                                    json.dump(data, f, indent=2)
+
+                                    # قراءة JSON من ملف
+                                    with open('data.json', 'r') as f:
+                                    loaded_data = json.load(f)
+                                    print(loaded_data)
+                                </div>
+
+                                <h3>معالجة الملفات (File Handling)</h3>
+                                <div class="code-block">
+                                    # الكتابة إلى ملف نصي
+                                    with open('output.txt', 'w') as f:
+                                    f.write("Hello World\n")
+                                    f.write("This is a test")
+
+                                    # القراءة من ملف نصي
+                                    with open('output.txt', 'r') as f:
+                                    content = f.read()
+                                    print(content)
+
+                                    # قراءة سطر بسطر
+                                    with open('output.txt', 'r') as f:
+                                    for line in f:
+                                    print(line.strip())
+                                </div>
+
+                                <div class="warning-box">
+                                    <strong>💡 نصيحة مهمة:</strong> استخدم <span class="keyword">with</span> دائماً عند
+                                    فتح الملفات. هذا يضمن إغلاق الملف تلقائياً حتى لو حدث خطأ.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأسبوع الثاني -->
+                        <div id="week2" class="page">
+                            <h1>🧹 الأسبوع الثاني: تنظيف البيانات I</h1>
+
+                            <h2>لماذا تنظيف البيانات مهم؟</h2>
+                            <p>البيانات الخام نادراً ما تكون جاهزة للاستخدام مباشرة. قد تحتوي على:</p>
+                            <ul>
+                                <li>❌ قيم مفقودة (Missing Values)</li>
+                                <li>❌ سجلات مكررة (Duplicates)</li>
+                                <li>❌ قيم شاذة (Outliers)</li>
+                                <li>❌ أنواع بيانات خاطئة (Wrong Data Types)</li>
+                                <li>❌ أخطاء في الترميز (Encoding Errors)</li>
+                            </ul>
+
+                            <h2>اليوم 6: القيم المفقودة (Missing Values)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week2-day6-exp')">الشرح</button>
+                                <button class="tab-btn" onclick="switchTab(event, 'week2-day6-ex')">أمثلة</button>
+                            </div>
+
+                            <div id="week2-day6-exp" class="tab-content active">
+                                <h3>ما هي القيم المفقودة؟</h3>
+                                <p>القيم المفقودة <span class="keyword">Missing Values</span> هي خلايا فارغة في
+                                    البيانات.</p>
+
+                                <h3>أسباب القيم المفقودة</h3>
+                                <ul>
+                                    <li>🔴 لم تُجمع البيانات (مثل: مستشعر معطل)</li>
+                                    <li>🔴 غير قابلة للتطبيق (مثل: عدد أيام الحمل للرجال)</li>
+                                    <li>🔴 الخصوصية (مثل: "أفضل عدم الإجابة")</li>
+                                    <li>🔴 أخطاء في الترميز (مثل: "N/A", "unknown")</li>
+                                </ul>
+
+                                <h3>اكتشاف القيم المفقودة</h3>
+                                <div class="code-block">
+                                    import pandas as pd
+                                    import numpy as np
+
+                                    df = pd.DataFrame({
+                                    'name': ['Ahmed', 'Fatima', None, 'Ali'],
+                                    'age': [25, np.nan, 30, 28],
+                                    'salary': [5000, 6000, None, 5500]
+                                    })
+
+                                    # اكتشاف القيم المفقودة
+                                    print(df.isna()) # جدول بـ True و False
+                                    print(df.isna().sum()) # عدد القيم المفقودة في كل عمود
+                                    print(df.isna().mean()) # نسبة القيم المفقودة
+                                </div>
+
+                                <h3>استراتيجيات التعامل مع القيم المفقودة</h3>
+
+                                <h4>1️⃣ حذف الصفوف (Dropping Rows)</h4>
+                                <p>إزالة الصفوف التي تحتوي على قيم مفقودة.</p>
+                                <div class="code-block">
+                                    # حذف أي صف يحتوي على قيمة مفقودة
+                                    df_clean = df.dropna()
+
+                                    # حذف الصفوف إذا كانت جميع القيم مفقودة
+                                    df_clean = df.dropna(how='all')
+
+                                    # حذف الصفوف إذا كانت أكثر من 2 قيم مفقودة
+                                    df_clean = df.dropna(thresh=2)
+                                </div>
+
+                                <h4>2️⃣ ملء القيم (Imputation)</h4>
+                                <p>استبدال القيم المفقودة بقيم معينة.</p>
+                                <div class="code-block">
+                                    # ملء بقيمة ثابتة
+                                    df['age'].fillna(0, inplace=True)
+
+                                    # ملء بمتوسط العمود
+                                    df['age'].fillna(df['age'].mean(), inplace=True)
+
+                                    # ملء بالوسيط
+                                    df['salary'].fillna(df['salary'].median(), inplace=True)
+
+                                    # ملء بالقيمة السابقة
+                                    df['age'].fillna(method='ffill', inplace=True)
+
+                                    # ملء بالقيمة التالية
+                                    df['age'].fillna(method='bfill', inplace=True)
+                                </div>
+
+                                <h4>3️⃣ مؤشرات المفقودة (Missing Indicators)</h4>
+                                <p>إنشاء عمود جديد يشير إلى القيم المفقودة الأصلية.</p>
+                                <div class="code-block">
+                                    # إنشاء مؤشر
+                                    df['salary_was_missing'] = df['salary'].isna()
+
+                                    # ملء القيم المفقودة
+                                    df['salary'].fillna(df['salary'].mean(), inplace=True)
+
+                                    # الآن لدينا معلومة عن القيم التي كانت مفقودة
+                                    print(df)
+                                </div>
+
+                                <div class="warning-box">
+                                    <strong>⚠️ تحذير مهم - Data Leakage:</strong> لا تحسب المتوسط من جميع البيانات!
+                                    احسبه من بيانات التدريب فقط، ثم طبقه على بيانات الاختبار.
+                                </div>
+                            </div>
+
+                            <div id="week2-day6-ex" class="tab-content">
+                                <h3>مثال عملي شامل</h3>
+                                <div class="example-box">
+                                    <strong>البيانات الأصلية:</strong>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        import numpy as np
+
+                                        df = pd.DataFrame({
+                                        'student_id': [1, 2, 3, 4, 5],
+                                        'name': ['Ahmed', 'Fatima', None, 'Ali', 'Sara'],
+                                        'age': [25, np.nan, 23, 24, np.nan],
+                                        'grade': [85, 90, 88, None, 92],
+                                        'attendance': [95, 88, 92, 85, None]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print("\nنسبة القيم المفقودة:")
+                                        print(df.isna().sum() / len(df) * 100)
+                                    </div>
+
+                                    <strong>الحل:</strong>
+                                    <div class="code-block">
+                                        # 1. ملء الأعمار بالمتوسط
+                                        df['age'].fillna(df['age'].mean(), inplace=True)
+
+                                        # 2. ملء الدرجات بالوسيط
+                                        df['grade'].fillna(df['grade'].median(), inplace=True)
+
+                                        # 3. ملء الحضور بالقيمة السابقة
+                                        df['attendance'].fillna(method='ffill', inplace=True)
+
+                                        # 4. حذف الصفوف التي تحتوي على أسماء مفقودة
+                                        df = df.dropna(subset=['name'])
+
+                                        print("البيانات بعد التنظيف:")
+                                        print(df)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>اليوم 7: استراتيجيات الملء المتقدمة</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week2-day7-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week2-day7-exp" class="tab-content active">
+                                <h3>ملء حسب المجموعات (Group-based Imputation)</h3>
+                                <p>ملء القيم المفقودة بناءً على متوسط المجموعة التي تنتمي إليها.</p>
+                                <div class="code-block">
+                                    # مثال: ملء الراتب بناءً على متوسط الراتب في نفس المدينة
+                                    df['salary'].fillna(df.groupby('city')['salary'].transform('mean'), inplace=True)
+                                </div>
+
+                                <h3>الملء الأمامي والخلفي (Forward/Backward Fill)</h3>
+                                <p>مفيد جداً للبيانات الزمنية.</p>
+                                <div class="code-block">
+                                    # البيانات الزمنية
+                                    df = pd.DataFrame({
+                                    'date': ['2024-01-01', '2024-01-02', '2024-01-03', '2024-01-04'],
+                                    'temperature': [20, np.nan, 22, np.nan]
+                                    })
+
+                                    # الملء الأمامي: استخدم القيمة السابقة
+                                    df['temperature'].fillna(method='ffill', inplace=True)
+                                    # النتيجة: [20, 20, 22, 22]
+
+                                    # الملء الخلفي: استخدم القيمة التالية
+                                    df['temperature'].fillna(method='bfill', inplace=True)
+                                </div>
+
+                                <h3>الملء بالاستيفاء (Interpolation)</h3>
+                                <p>ملء القيم بناءً على الاتجاه.</p>
+                                <div class="code-block">
+                                    df = pd.DataFrame({
+                                    'time': [1, 2, 3, 4, 5],
+                                    'value': [10, np.nan, np.nan, np.nan, 50]
+                                    })
+
+                                    # الاستيفاء الخطي
+                                    df['value'].interpolate(method='linear', inplace=True)
+                                    # النتيجة: [10, 20, 30, 40, 50]
+                                </div>
+                            </div>
+
+                            <h2>اليوم 8: السجلات المكررة (Duplicate Records)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week2-day8-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week2-day8-exp" class="tab-content active">
+                                <h3>اكتشاف السجلات المكررة</h3>
+                                <div class="code-block">
+                                    df = pd.DataFrame({
+                                    'id': [1, 2, 2, 3, 3, 3],
+                                    'name': ['Ahmed', 'Fatima', 'Fatima', 'Ali', 'Ali', 'Ali'],
+                                    'email': ['a@example.com', 'f@example.com', 'f@example.com', 'al@example.com',
+                                    'al@example.com', 'al@example.com']
+                                    })
+
+                                    # اكتشاف الصفوف المكررة
+                                    print(df.duplicated()) # [False, False, True, False, True, True]
+
+                                    # عدد الصفوف المكررة
+                                    print(df.duplicated().sum()) # 3
+                                </div>
+
+                                <h3>حذف السجلات المكررة</h3>
+                                <div class="code-block">
+                                    # حذف جميع الصفوف المكررة
+                                    df_clean = df.drop_duplicates()
+
+                                    # حذف المكررات بناءً على أعمدة معينة
+                                    df_clean = df.drop_duplicates(subset=['id'])
+
+                                    # الاحتفاظ بأول أو آخر نسخة
+                                    df_clean = df.drop_duplicates(subset=['id'], keep='first')
+                                    df_clean = df.drop_duplicates(subset=['id'], keep='last')
+                                </div>
+
+                                <h3>الفرق بين Entity و Event</h3>
+                                <ul>
+                                    <li>🔴 <strong>Entity Duplicates:</strong> نفس الكائن مكرر (مثل: نفس الشخص مسجل
+                                        مرتين)</li>
+                                    <li>🟢 <strong>Event Duplicates:</strong> نفس الحدث مكرر (مثل: نفس الشراء مسجل
+                                        مرتين)</li>
+                                </ul>
+                            </div>
+
+                            <h2>اليوم 9: أنواع البيانات (Data Types)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week2-day9-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week2-day9-exp" class="tab-content active">
+                                <h3>أنواع البيانات الرئيسية</h3>
+                                <table class="feature-table">
+                                    <tr>
+                                        <th>النوع</th>
+                                        <th>الوصف</th>
+                                        <th>الأمثلة</th>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">int</span></td>
+                                        <td>أعداد صحيحة</td>
+                                        <td>1, 25, 100</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">float</span></td>
+                                        <td>أعداد عشرية</td>
+                                        <td>3.14, 0.5, 99.99</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">str</span></td>
+                                        <td>نصوص</td>
+                                        <td>"Ahmed", "Hello"</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">bool</span></td>
+                                        <td>قيم منطقية</td>
+                                        <td>True, False</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">datetime</span></td>
+                                        <td>تواريخ وأوقات</td>
+                                        <td>2024-01-15, 10:30:00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="keyword">category</span></td>
+                                        <td>فئات</td>
+                                        <td>"Red", "Blue", "Green"</td>
+                                    </tr>
+                                </table>
+
+                                <h3>تحويل أنواع البيانات</h3>
+                                <div class="code-block">
+                                    df = pd.DataFrame({
+                                    'age': ['25', '30', '28'], # نصوص
+                                    'salary': ['5000.50', '6000.75', '5500.25'], # نصوص
+                                    'date': ['2024-01-01', '2024-01-02', '2024-01-03'] # نصوص
+                                    })
+
+                                    # تحويل إلى أعداد صحيحة
+                                    df['age'] = pd.to_numeric(df['age'])
+
+                                    # تحويل إلى أعداد عشرية
+                                    df['salary'] = pd.to_numeric(df['salary'])
+
+                                    # تحويل إلى تواريخ
+                                    df['date'] = pd.to_datetime(df['date'])
+
+                                    print(df.dtypes)
+                                </div>
+
+                                <h3>معالجة الأخطاء في التحويل</h3>
+                                <div class="code-block">
+                                    # إذا كانت هناك قيم غير صحيحة
+                                    df = pd.DataFrame({
+                                    'age': ['25', 'invalid', '30']
+                                    })
+
+                                    # الطريقة 1: تحويل مع استبدال القيم الخاطئة بـ NaN
+                                    df['age'] = pd.to_numeric(df['age'], errors='coerce')
+                                    # النتيجة: [25, NaN, 30]
+
+                                    # الطريقة 2: تجاهل الخطأ
+                                    df['age'] = pd.to_numeric(df['age'], errors='ignore')
+                                </div>
+                            </div>
+
+                            <h2>اليوم 10: القيم الشاذة والأخلاقيات (Outliers & Ethics)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week2-day10-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week2-day10-exp" class="tab-content active">
+                                <h3>ما هي القيم الشاذة؟</h3>
+                                <p>القيم الشاذة <span class="keyword">Outliers</span> هي قيم بعيدة جداً عن باقي
+                                    البيانات.</p>
+
+                                <h3>طرق اكتشاف القيم الشاذة</h3>
+
+                                <h4>1️⃣ طريقة IQR (Interquartile Range)</h4>
+                                <p>الطريقة الأكثر استخداماً والأكثر قوة.</p>
+                                <div class="code-block">
+                                    def find_outliers_iqr(data, k=1.5):
+                                    Q1 = data.quantile(0.25)
+                                    Q3 = data.quantile(0.75)
+                                    IQR = Q3 - Q1
+
+                                    lower_bound = Q1 - k * IQR
+                                    upper_bound = Q3 + k * IQR
+
+                                    return (data < lower_bound) | (data> upper_bound)
+
+                                        outliers = find_outliers_iqr(df['salary'])
+                                        print(df[outliers])
+                                </div>
+
+                                <h4>2️⃣ طريقة Z-Score</h4>
+                                <p>تقيس عدد الانحرافات المعيارية عن المتوسط.</p>
+                                <div class="code-block">
+                                    from scipy import stats
+
+                                    z_scores = np.abs(stats.zscore(df['salary']))
+                                    outliers = z_scores > 3 # قيم بعيدة أكثر من 3 انحرافات معيارية
+
+                                    print(df[outliers])
+                                </div>
+
+                                <h3>التعامل مع القيم الشاذة</h3>
+
+                                <h4>1️⃣ الحذف (Removal)</h4>
+                                <div class="code-block">
+                                    # حذف الصفوف التي تحتوي على قيم شاذة
+                                    df_clean = df[~outliers]
+                                </div>
+
+                                <h4>2️⃣ التحديد (Capping)</h4>
+                                <p>استبدال القيم الشاذة بحد معين.</p>
+                                <div class="code-block">
+                                    # تحديد بالنسبة المئوية
+                                    lower = df['salary'].quantile(0.01)
+                                    upper = df['salary'].quantile(0.99)
+                                    df['salary_capped'] = df['salary'].clip(lower, upper)
+                                </div>
+
+                                <h4>3️⃣ التحويل (Transformation)</h4>
+                                <div class="code-block">
+                                    # تطبيق log transformation
+                                    df['salary_log'] = np.log1p(df['salary'])
+                                </div>
+
+                                <h3>الاعتبارات الأخلاقية</h3>
+                                <div class="warning-box">
+                                    <strong>⚠️ تحذير أخلاقي:</strong>
+                                    <br>- القيم الشاذة قد تمثل مجموعات معينة (مثل: الأغنياء جداً)
+                                    <br>- حذفها قد يؤدي إلى تمييز ضد هذه المجموعات
+                                    <br>- يجب فهم السياق قبل حذف أي بيانات
+                                    <br>- توثيق جميع القرارات والتبريرات
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأسبوع الثالث -->
+                        <div id="week3" class="page">
+                            <h1>🧹 الأسبوع الثالث: تنظيف البيانات II</h1>
+
+                            <h2>اليوم 11: استراتيجيات التعامل مع القيم الشاذة</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week3-day11-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week3-day11-exp" class="tab-content active">
+                                <h3>الفرق بين Capping و Flooring</h3>
+
+                                <h4>Capping (التحديد)</h4>
+                                <p>استبدال القيم الكبيرة جداً بحد أقصى.</p>
+                                <div class="code-block">
+                                    # تحديد بالنسبة المئوية 99
+                                    upper_limit = df['income'].quantile(0.99)
+                                    df['income_capped'] = df['income'].clip(upper=upper_limit)
+                                </div>
+
+                                <h4>Flooring (التحديد الأدنى)</h4>
+                                <p>استبدال القيم الصغيرة جداً بحد أدنى.</p>
+                                <div class="code-block">
+                                    # تحديد أدنى بالنسبة المئوية 1
+                                    lower_limit = df['income'].quantile(0.01)
+                                    df['income_floored'] = df['income'].clip(lower=lower_limit)
+                                </div>
+
+                                <h3>متى تستخدم كل استراتيجية؟</h3>
+                                <table class="feature-table">
+                                    <tr>
+                                        <th>الاستراتيجية</th>
+                                        <th>متى تستخدمها</th>
+                                        <th>المميزات</th>
+                                        <th>العيوب</th>
+                                    </tr>
+                                    <tr>
+                                        <td>الحذف</td>
+                                        <td>أخطاء واضحة</td>
+                                        <td>بسيط</td>
+                                        <td>فقدان البيانات</td>
+                                    </tr>
+                                    <tr>
+                                        <td>التحديد</td>
+                                        <td>قيم حقيقية لكن متطرفة</td>
+                                        <td>الحفاظ على البيانات</td>
+                                        <td>فقدان المعلومات</td>
+                                    </tr>
+                                    <tr>
+                                        <td>التحويل</td>
+                                        <td>توزيع منحرف</td>
+                                        <td>يحافظ على الاتجاه</td>
+                                        <td>أكثر تعقيداً</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <h2>اليوم 12: تنظيف النصوص والتواريخ</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week3-day12-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week3-day12-exp" class="tab-content active">
+                                <h3>تنظيف النصوص (String Cleaning)</h3>
+
+                                <h4>إزالة المسافات الزائدة</h4>
+                                <div class="code-block">
+                                    df['name'] = df['name'].str.strip() # إزالة من البداية والنهاية
+                                    df['name'] = df['name'].str.lstrip() # إزالة من البداية فقط
+                                    df['name'] = df['name'].str.rstrip() # إزالة من النهاية فقط
+                                </div>
+
+                                <h4>تحويل الحروف</h4>
+                                <div class="code-block">
+                                    df['name'] = df['name'].str.upper() # أحرف كبيرة
+                                    df['name'] = df['name'].str.lower() # أحرف صغيرة
+                                    df['name'] = df['name'].str.title() # أول حرف كبير
+                                </div>
+
+                                <h4>استبدال القيم</h4>
+                                <div class="code-block">
+                                    # استبدال كلمات معينة
+                                    df['status'] = df['status'].str.replace('active', 'نشط')
+                                    df['status'] = df['status'].str.replace('inactive', 'غير نشط')
+
+                                    # استبدال متعدد
+                                    df['city'] = df['city'].replace({
+                                    'NY': 'New York',
+                                    'LA': 'Los Angeles',
+                                    'SF': 'San Francisco'
+                                    })
+                                </div>
+
+                                <h3>معالجة التواريخ (Date Handling)</h3>
+
+                                <h4>تحويل إلى datetime</h4>
+                                <div class="code-block">
+                                    # تحويل نص إلى تاريخ
+                                    df['date'] = pd.to_datetime(df['date'])
+
+                                    # مع تحديد الصيغة
+                                    df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y')
+
+                                    # مع معالجة الأخطاء
+                                    df['date'] = pd.to_datetime(df['date'], errors='coerce')
+                                </div>
+
+                                <h4>استخراج مكونات التاريخ</h4>
+                                <div class="code-block">
+                                    df['year'] = df['date'].dt.year
+                                    df['month'] = df['date'].dt.month
+                                    df['day'] = df['date'].dt.day
+                                    df['day_of_week'] = df['date'].dt.day_name()
+                                    df['quarter'] = df['date'].dt.quarter
+                                </div>
+
+                                <h4>حساب الفروقات الزمنية</h4>
+                                <div class="code-block">
+                                    # عدد الأيام بين تاريخين
+                                    df['days_since'] = (pd.Timestamp.now() - df['date']).dt.days
+
+                                    # عدد الأسابيع
+                                    df['weeks_since'] = (pd.Timestamp.now() - df['date']).dt.days // 7
+                                </div>
+                            </div>
+
+                            <h2>اليوم 13: معالجة البيانات الكبيرة</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week3-day13-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week3-day13-exp" class="tab-content active">
+                                <h3>معالجة البيانات على دفعات (Chunking)</h3>
+                                <p>عندما تكون البيانات كبيرة جداً ولا تدخل في الذاكرة.</p>
+                                <div class="code-block">
+                                    # قراءة الملف على دفعات
+                                    chunk_size = 10000
+                                    chunks = []
+
+                                    for chunk in pd.read_csv('large_file.csv', chunksize=chunk_size):
+                                    # معالجة كل دفعة
+                                    chunk['age'] = chunk['age'].fillna(chunk['age'].mean())
+                                    chunks.append(chunk)
+
+                                    # دمج جميع الدفع
+                                    df = pd.concat(chunks, ignore_index=True)
+                                </div>
+
+                                <h3>أخذ العينات (Sampling)</h3>
+                                <p>اختيار عينة عشوائية من البيانات للعمل عليها.</p>
+                                <div class="code-block">
+                                    # عينة عشوائية بحجم معين
+                                    sample = df.sample(n=1000)
+
+                                    # عينة عشوائية بنسبة معينة
+                                    sample = df.sample(frac=0.1) # 10% من البيانات
+
+                                    # عينة طبقية (حسب فئة معينة)
+                                    sample = df.groupby('city', group_keys=False).apply(lambda x: x.sample(frac=0.1))
+                                </div>
+
+                                <h3>التسريع باستخدام Vectorization</h3>
+                                <p>استخدام عمليات pandas بدلاً من حلقات Python.</p>
+                                <div class="code-block">
+                                    # ❌ بطيء: استخدام حلقة
+                                    result = []
+                                    for value in df['salary']:
+                                    result.append(value * 1.1)
+
+                                    # ✅ سريع: استخدام vectorization
+                                    result = df['salary'] * 1.1
+
+                                    # ✅ سريع جداً: استخدام apply مع lambda
+                                    result = df['salary'].apply(lambda x: x * 1.1)
+                                </div>
+                            </div>
+
+                            <h2>اليوم 14: خط أنابيب التنظيف الكامل</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week3-day14-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week3-day14-exp" class="tab-content active">
+                                <h3>ترتيب العمليات (Order of Operations)</h3>
+                                <p>يجب اتباع ترتيب معين عند تنظيف البيانات:</p>
+                                <ol style="margin: 15px 0; margin-right: 30px;">
+                                    <li>📥 <strong>تحميل البيانات</strong></li>
+                                    <li>🔍 <strong>الفحص الأولي</strong> - فهم البيانات</li>
+                                    <li>🧹 <strong>حذف الصفوف المكررة</strong></li>
+                                    <li>🔤 <strong>تنظيف النصوص</strong></li>
+                                    <li>📅 <strong>معالجة التواريخ</strong></li>
+                                    <li>🔢 <strong>تحويل أنواع البيانات</strong></li>
+                                    <li>❌ <strong>معالجة القيم المفقودة</strong></li>
+                                    <li>📊 <strong>معالجة القيم الشاذة</strong></li>
+                                    <li>✅ <strong>التحقق النهائي</strong></li>
+                                </ol>
+
+                                <h3>مثال على خط أنابيب كامل</h3>
+                                <div class="code-block">
+                                    def clean_data(df):
+                                    """خط أنابيب تنظيف شامل"""
+
+                                    # 1. حذف المكررات
+                                    df = df.drop_duplicates()
+
+                                    # 2. تنظيف النصوص
+                                    df['name'] = df['name'].str.strip().str.title()
+                                    df['email'] = df['email'].str.lower().str.strip()
+
+                                    # 3. معالجة التواريخ
+                                    df['date'] = pd.to_datetime(df['date'], errors='coerce')
+
+                                    # 4. تحويل الأنواع
+                                    df['age'] = pd.to_numeric(df['age'], errors='coerce')
+                                    df['salary'] = pd.to_numeric(df['salary'], errors='coerce')
+
+                                    # 5. معالجة القيم المفقودة
+                                    df['age'].fillna(df['age'].median(), inplace=True)
+                                    df['salary'].fillna(df.groupby('department')['salary'].transform('mean'),
+                                    inplace=True)
+
+                                    # 6. معالجة القيم الشاذة
+                                    Q1 = df['salary'].quantile(0.25)
+                                    Q3 = df['salary'].quantile(0.75)
+                                    IQR = Q3 - Q1
+                                    df['salary'] = df['salary'].clip(lower=Q1-1.5*IQR, upper=Q3+1.5*IQR)
+
+                                    # 7. حذف الصفوف التي تحتوي على قيم مفقودة حرجة
+                                    df = df.dropna(subset=['name', 'email', 'date'])
+
+                                    return df
+
+                                    # الاستخدام
+                                    df_clean = clean_data(df)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأسبوع الرابع: هندسة الميزات I -->
+                        <div class="page" id="week4">
+                            <h2>📊 الأسبوع الرابع: هندسة الميزات I (Feature Engineering)</h2>
+                            <p class="intro-text">هندسة الميزات هي فن وعلم تحويل البيانات الخام إلى ميزات ذات معنى تحسّن
+                                من أداء نماذج التعلم الآلي.</p>
+
+                            <!-- اليوم 16: Encoding -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 16: Encoding (ترميز البيانات الفئوية)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w4d16-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w4d16-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w4d16-explain" class="tab-content active">
+                                    <h4>🎯 ما هو Encoding؟</h4>
+                                    <p>البيانات الفئوية (Categorical Data) هي البيانات التي تأخذ قيماً محددة من فئات
+                                        معينة، مثل الألوان (أحمر، أزرق، أخضر) أو الجنس (ذكر، أنثى). معظم خوارزميات
+                                        التعلم الآلي تتطلب بيانات رقمية، لذلك نحتاج إلى تحويل هذه البيانات الفئوية إلى
+                                        أرقام.</p>
+
+                                    <h4>📊 أنواع البيانات الفئوية:</h4>
+                                    <div class="info-box">
+                                        <strong>1. Nominal (اسمية):</strong> لا توجد ترتيب معين
+                                        <br>أمثلة: الألوان، الدول، أنواع الفاكهة
+                                        <br><br>
+                                        <strong>2. Ordinal (ترتيبية):</strong> هناك ترتيب معين
+                                        <br>أمثلة: التقييمات (سيء، متوسط، جيد، ممتاز)، المستويات التعليمية
+                                    </div>
+
+                                    <h4>🔧 طرق Encoding الرئيسية:</h4>
+
+                                    <h5>1️⃣ Label Encoding (ترميز الأسماء)</h5>
+                                    <p>تحويل كل فئة إلى رقم. مثلاً: أحمر=0، أزرق=1، أخضر=2</p>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import LabelEncoder
+
+                                        # البيانات الأصلية
+                                        colors = ['أحمر', 'أزرق', 'أخضر', 'أحمر', 'أزرق']
+
+                                        # إنشاء LabelEncoder
+                                        le = LabelEncoder()
+                                        encoded = le.fit_transform(colors)
+                                        print(encoded) # [0 1 2 0 1]
+
+                                        # معرفة التعيين
+                                        print(le.classes_) # ['أحمر' 'أزرق' 'أخضر']
+                                    </div>
+                                    <p><strong>⚠️ تحذير:</strong> Label Encoding قد يخلق مشاكل لأن النموذج قد يعتقد أن 2
+                                        > 1 > 0، وهذا غير صحيح للبيانات الاسمية!</p>
+
+                                    <h5>2️⃣ One-Hot Encoding (الترميز الثنائي)</h5>
+                                    <p>تحويل كل فئة إلى عمود منفصل يحتوي على 0 أو 1. هذه الطريقة أفضل للبيانات الاسمية.
+                                    </p>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import OneHotEncoder
+                                        import pandas as pd
+
+                                        # البيانات الأصلية
+                                        colors = ['أحمر', 'أزرق', 'أخضر', 'أحمر']
+                                        df = pd.DataFrame({'color': colors})
+
+                                        # One-Hot Encoding
+                                        df_encoded = pd.get_dummies(df, columns=['color'])
+                                        print(df_encoded)
+                                        # color_أحمر color_أزرق color_أخضر
+                                        # 0 1 0 0
+                                        # 1 0 1 0
+                                        # 2 0 0 1
+                                        # 3 1 0 0
+                                    </div>
+
+                                    <h5>3️⃣ Target Encoding (ترميز الهدف)</h5>
+                                    <p>استبدال كل فئة بمتوسط قيمة المتغير الهدف (Target Variable) لتلك الفئة. هذه
+                                        الطريقة قوية جداً لكن قد تسبب Overfitting.</p>
+                                    <div class="code-block">
+                                        # مثال: ترميز المدينة بناءً على متوسط الراتب
+                                        df = pd.DataFrame({
+                                        'city': ['الرياض', 'جدة', 'الرياض', 'جدة'],
+                                        'salary': [5000, 4500, 5500, 4800]
+                                        })
+
+                                        # حساب متوسط الراتب لكل مدينة
+                                        target_encoding = df.groupby('city')['salary'].mean()
+                                        print(target_encoding)
+                                        # city
+                                        # الرياض 5250
+                                        # جدة 4650
+                                    </div>
+
+                                    <h4>⚠️ Dummy Variable Trap</h4>
+                                    <p>عند استخدام One-Hot Encoding، إذا كان لديك n فئات، فإنك تحتاج فقط إلى n-1 أعمدة!
+                                        السبب: إذا كانت جميع الأعمدة الأخرى = 0، فإن العمود الأخير يجب أن يكون = 1.</p>
+                                    <div class="warning-box">
+                                        <strong>❌ خطأ:</strong> استخدام جميع n أعمدة
+                                        <br><strong>✅ صحيح:</strong> استخدام n-1 أعمدة فقط
+                                        <br><br>
+                                        # الطريقة الصحيحة
+                                        df_encoded = pd.get_dummies(df, columns=['color'], drop_first=True)
+                                    </div>
+                                </div>
+
+                                <div id="w4d16-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+                                        # البيانات
+                                        df = pd.DataFrame({
+                                        'student_name': ['أحمد', 'فاطمة', 'محمد', 'نور'],
+                                        'gender': ['ذكر', 'أنثى', 'ذكر', 'أنثى'],
+                                        'grade': ['A', 'B', 'A', 'C'],
+                                        'score': [95, 85, 92, 78]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print()
+
+                                        # Label Encoding للجنس
+                                        le_gender = LabelEncoder()
+                                        df['gender_encoded'] = le_gender.fit_transform(df['gender'])
+                                        print("بعد Label Encoding للجنس:")
+                                        print(df[['gender', 'gender_encoded']])
+                                        print()
+
+                                        # One-Hot Encoding للدرجة
+                                        df_encoded = pd.get_dummies(df, columns=['grade'], drop_first=True)
+                                        print("بعد One-Hot Encoding للدرجة:")
+                                        print(df_encoded)
+                                    </div>
+
+                                    <h4>🎯 متى تستخدم كل طريقة؟</h4>
+                                    <div class="comparison-table">
+                                        <table>
+                                            <tr>
+                                                <th>الطريقة</th>
+                                                <th>الاستخدام</th>
+                                                <th>المميزات</th>
+                                                <th>العيوب</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Label Encoding</td>
+                                                <td>البيانات الترتيبية فقط</td>
+                                                <td>بسيطة وسريعة</td>
+                                                <td>قد تخلق ترتيب وهمي</td>
+                                            </tr>
+                                            <tr>
+                                                <td>One-Hot Encoding</td>
+                                                <td>البيانات الاسمية</td>
+                                                <td>لا تخلق ترتيب وهمي</td>
+                                                <td>تزيد عدد الأعمدة</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Target Encoding</td>
+                                                <td>عندما تكون الفئات كثيرة</td>
+                                                <td>قوية جداً</td>
+                                                <td>قد تسبب Overfitting</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 17: Scaling -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 17: Scaling (تطبيع البيانات)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w4d17-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w4d17-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w4d17-explain" class="tab-content active">
+                                    <h4>🎯 لماذا نطبّع البيانات؟</h4>
+                                    <p>تخيل أن لديك متغيرين: العمر (0-100) والراتب (0-1,000,000). الفرق في الحجم ضخم
+                                        جداً! هذا يؤثر على الخوارزميات التي تعتمد على المسافات (مثل KNN و K-Means).</p>
+                                    <p>التطبيع يحول البيانات إلى نطاق موحد (عادة 0-1 أو بمتوسط 0 وانحراف معياري 1).</p>
+
+                                    <h4>🔧 طرق التطبيع الرئيسية:</h4>
+
+                                    <h5>1️⃣ Min-Max Scaling (التطبيع بين 0 و 1)</h5>
+                                    <p><strong>الصيغة:</strong> X_scaled = (X - X_min) / (X_max - X_min)</p>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import MinMaxScaler
+                                        import numpy as np
+
+                                        # البيانات الأصلية
+                                        data = np.array([10, 20, 30, 40, 50]).reshape(-1, 1)
+
+                                        # تطبيع Min-Max
+                                        scaler = MinMaxScaler()
+                                        data_scaled = scaler.fit_transform(data)
+                                        print("البيانات الأصلية:", data.flatten())
+                                        print("البيانات المطبّعة:", data_scaled.flatten())
+                                        # البيانات الأصلية: [10 20 30 40 50]
+                                        # البيانات المطبّعة: [0. 0.25 0.5 0.75 1. ]
+                                    </div>
+
+                                    <h5>2️⃣ Standardization (التوحيد - Z-Score)</h5>
+                                    <p><strong>الصيغة:</strong> X_scaled = (X - μ) / σ</p>
+                                    <p>حيث μ هو المتوسط و σ هو الانحراف المعياري</p>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import StandardScaler
+                                        import numpy as np
+
+                                        # البيانات الأصلية
+                                        data = np.array([10, 20, 30, 40, 50]).reshape(-1, 1)
+
+                                        # Standardization
+                                        scaler = StandardScaler()
+                                        data_scaled = scaler.fit_transform(data)
+                                        print("البيانات الأصلية:", data.flatten())
+                                        print("البيانات المطبّعة:", data_scaled.flatten())
+                                        # البيانات الأصلية: [10 20 30 40 50]
+                                        # البيانات المطبّطة: [-1.41421356 -0.70710678 0. 0.70710678 1.41421356]
+                                    </div>
+
+                                    <h5>3️⃣ Robust Scaling</h5>
+                                    <p>تطبيع مقاوم للقيم الشاذة (Outliers). يستخدم الوسيط والمدى الربيعي بدلاً من
+                                        المتوسط والانحراف المعياري.</p>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import RobustScaler
+
+                                        # البيانات مع قيم شاذة
+                                        data = np.array([10, 20, 30, 40, 50, 1000]).reshape(-1, 1)
+
+                                        scaler = RobustScaler()
+                                        data_scaled = scaler.fit_transform(data)
+                                        print("البيانات الأصلية:", data.flatten())
+                                        print("البيانات المطبّعة:", data_scaled.flatten())
+                                    </div>
+
+                                    <h4>⚠️ Data Leakage - خطر كبير!</h4>
+                                    <div class="warning-box">
+                                        <strong>❌ خطأ شائع جداً:</strong>
+                                        <br>حساب min/max أو mean/std من البيانات الكاملة (Train + Test)، ثم تطبيع
+                                        البيانات
+                                        <br><br>
+                                        <strong>✅ الطريقة الصحيحة:</strong>
+                                        <br>1. حساب min/max أو mean/std من بيانات التدريب فقط
+                                        <br>2. تطبيع بيانات التدريب
+                                        <br>3. استخدام نفس المعاملات لتطبيع بيانات الاختبار
+                                    </div>
+
+                                    <div class="code-block">
+                                        # ❌ خطأ: حساب من البيانات الكاملة
+                                        scaler = StandardScaler()
+                                        X_scaled = scaler.fit_transform(X) # X تحتوي على train + test
+
+                                        # ✅ صحيح: حساب من بيانات التدريب فقط
+                                        scaler = StandardScaler()
+                                        X_train_scaled = scaler.fit_transform(X_train)
+                                        X_test_scaled = scaler.transform(X_test) # استخدام نفس المعاملات
+                                    </div>
+                                </div>
+
+                                <div id="w4d17-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        from sklearn.preprocessing import MinMaxScaler, StandardScaler
+                                        import numpy as np
+
+                                        # البيانات
+                                        df = pd.DataFrame({
+                                        'age': [20, 25, 30, 35, 40],
+                                        'salary': [20000, 25000, 30000, 35000, 40000],
+                                        'experience': [1, 2, 3, 4, 5]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print()
+
+                                        # Min-Max Scaling
+                                        scaler_minmax = MinMaxScaler()
+                                        df_minmax = pd.DataFrame(
+                                        scaler_minmax.fit_transform(df),
+                                        columns=df.columns
+                                        )
+                                        print("بعد Min-Max Scaling:")
+                                        print(df_minmax)
+                                        print()
+
+                                        # Standardization
+                                        scaler_std = StandardScaler()
+                                        df_std = pd.DataFrame(
+                                        scaler_std.fit_transform(df),
+                                        columns=df.columns
+                                        )
+                                        print("بعد Standardization:")
+                                        print(df_std)
+                                    </div>
+
+                                    <h4>🎯 متى تستخدم كل طريقة؟</h4>
+                                    <div class="comparison-table">
+                                        <table>
+                                            <tr>
+                                                <th>الطريقة</th>
+                                                <th>الاستخدام</th>
+                                                <th>النطاق</th>
+                                                <th>مقاوم للـ Outliers</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Min-Max</td>
+                                                <td>Neural Networks</td>
+                                                <td>0 - 1</td>
+                                                <td>❌ لا</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Standardization</td>
+                                                <td>Linear/Logistic Regression</td>
+                                                <td>-∞ إلى +∞</td>
+                                                <td>❌ لا</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Robust</td>
+                                                <td>عندما توجد Outliers</td>
+                                                <td>-∞ إلى +∞</td>
+                                                <td>✅ نعم</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 18: Binning -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 18: Binning & Discretization (تقسيم البيانات)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w4d18-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w4d18-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w4d18-explain" class="tab-content active">
+                                    <h4>🎯 ما هو Binning؟</h4>
+                                    <p>تقسيم البيانات المستمرة (Continuous) إلى فئات منفصلة (Bins). مثلاً: تقسيم الأعمار
+                                        إلى فئات (0-10، 10-20، 20-30، إلخ).</p>
+
+                                    <h4>🔧 طرق Binning الرئيسية:</h4>
+
+                                    <h5>1️⃣ Equal-Width Binning</h5>
+                                    <p>تقسيم البيانات إلى عدد متساوٍ من الفترات.</p>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        import numpy as np
+
+                                        # البيانات
+                                        ages = [5, 15, 25, 35, 45, 55, 65, 75]
+
+                                        # تقسيم إلى 4 bins متساوية
+                                        bins = [0, 20, 40, 60, 80]
+                                        labels = ['طفل', 'شاب', 'بالغ', 'كبير']
+                                        df = pd.DataFrame({'age': ages})
+                                        df['age_bin'] = pd.cut(df['age'], bins=bins, labels=labels)
+                                        print(df)
+                                    </div>
+
+                                    <h5>2️⃣ Equal-Frequency Binning (Quantile Binning)</h5>
+                                    <p>تقسيم البيانات بحيث يحتوي كل bin على نفس عدد العناصر تقريباً.</p>
+                                    <div class="code-block">
+                                        # تقسيم إلى 4 quantiles (كل bin يحتوي على 25% من البيانات)
+                                        df['age_qbin'] = pd.qcut(df['age'], q=4, labels=['Q1', 'Q2', 'Q3', 'Q4'])
+                                        print(df)
+                                    </div>
+
+                                    <h5>3️⃣ Domain-Driven Binning</h5>
+                                    <p>تقسيم البيانات بناءً على معرفة المجال (Domain Knowledge).</p>
+                                    <div class="code-block">
+                                        # تقسيم درجات الاختبار بناءً على معايير التقييم
+                                        bins = [0, 60, 70, 80, 90, 100]
+                                        labels = ['راسب', 'مقبول', 'جيد', 'جيد جداً', 'ممتاز']
+                                        df['grade'] = pd.cut(df['score'], bins=bins, labels=labels)
+                                    </div>
+                                </div>
+
+                                <div id="w4d18-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        import numpy as np
+
+                                        # البيانات
+                                        df = pd.DataFrame({
+                                        'student': ['أحمد', 'فاطمة', 'محمد', 'نور', 'علي'],
+                                        'age': [18, 22, 20, 19, 25],
+                                        'score': [45, 78, 92, 55, 88]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print()
+
+                                        # Equal-Width Binning للعمر
+                                        bins_age = [15, 20, 25, 30]
+                                        labels_age = ['صغير', 'متوسط', 'كبير']
+                                        df['age_category'] = pd.cut(df['age'], bins=bins_age, labels=labels_age)
+
+                                        # Domain-Driven Binning للدرجات
+                                        bins_score = [0, 60, 70, 80, 90, 100]
+                                        labels_score = ['راسب', 'مقبول', 'جيد', 'جيد جداً', 'ممتاز']
+                                        df['grade'] = pd.cut(df['score'], bins=bins_score, labels=labels_score)
+
+                                        print("بعد Binning:")
+                                        print(df)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 19: Transformations -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 19: Transformations (تحويلات البيانات)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w4d19-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w4d19-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w4d19-explain" class="tab-content active">
+                                    <h4>🎯 لماذا نحتاج تحويلات البيانات؟</h4>
+                                    <p>بعض البيانات لا تتبع توزيعاً طبيعياً (Normal Distribution)، مما يؤثر على أداء بعض
+                                        الخوارزميات. التحويلات تساعد في جعل البيانات أقرب إلى التوزيع الطبيعي.</p>
+
+                                    <h4>🔧 التحويلات الرئيسية:</h4>
+
+                                    <h5>1️⃣ Log Transformation</h5>
+                                    <p>تطبيق اللوغاريتم على البيانات. مفيدة للبيانات الموجبة والمنحرفة لليمين.</p>
+                                    <div class="code-block">
+                                        import numpy as np
+                                        import pandas as pd
+
+                                        # البيانات الأصلية (منحرفة لليمين)
+                                        data = np.array([1, 2, 3, 5, 10, 100, 1000])
+
+                                        # Log Transformation
+                                        data_log = np.log(data)
+                                        print("البيانات الأصلية:", data)
+                                        print("بعد Log Transformation:", data_log)
+                                    </div>
+
+                                    <h5>2️⃣ Square Root Transformation</h5>
+                                    <p>تطبيق الجذر التربيعي. أقل تأثيراً من Log Transformation.</p>
+                                    <div class="code-block">
+                                        # Square Root Transformation
+                                        data_sqrt = np.sqrt(data)
+                                        print("بعد Square Root Transformation:", data_sqrt)
+                                    </div>
+
+                                    <h5>3️⃣ Box-Cox Transformation</h5>
+                                    <p>تحويل قوية تختار أفضل تحويل تلقائياً.</p>
+                                    <div class="code-block">
+                                        from scipy.stats import boxcox
+
+                                        # Box-Cox Transformation
+                                        data_boxcox, lambda_param = boxcox(data)
+                                        print("بعد Box-Cox Transformation:", data_boxcox)
+                                        print("Lambda parameter:", lambda_param)
+                                    </div>
+                                </div>
+
+                                <div id="w4d19-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import numpy as np
+                                        import pandas as pd
+                                        from scipy.stats import boxcox
+
+                                        # البيانات
+                                        df = pd.DataFrame({
+                                        'revenue': [1000, 2000, 3000, 5000, 10000, 100000, 1000000]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print()
+
+                                        # Log Transformation
+                                        df['revenue_log'] = np.log(df['revenue'])
+                                        print("بعد Log Transformation:")
+                                        print(df[['revenue', 'revenue_log']])
+                                        print()
+
+                                        # Box-Cox Transformation
+                                        df['revenue_boxcox'], lambda_param = boxcox(df['revenue'])
+                                        print("بعد Box-Cox Transformation (lambda={:.2f}):".format(lambda_param))
+                                        print(df[['revenue', 'revenue_boxcox']])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأسبوع السادس -->
+                        <div class="page" id="week6">
+                            <h1>📊 الأسبوع السادس: التحليل الاستكشافي للبيانات (EDA)</h1>
+
+                            <h2>ما هو EDA؟</h2>
+                            <p><span class="keyword">Exploratory Data Analysis (EDA)</span> هي عملية فحص وتحليل البيانات
+                                لاكتشاف الأنماط والعلاقات.</p>
+
+                            <h2>اليوم 26: توزيع البيانات (Data Distributions)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day26-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day26-exp" class="tab-content active">
+                                <h3>الإحصائيات الوصفية (Summary Statistics)</h3>
+                                <div class="code-block">
+                                    df.describe() # إحصائيات أساسية
+                                    # count: عدد القيم
+                                    # mean: المتوسط
+                                    # std: الانحراف المعياري
+                                    # min: القيمة الأدنى
+                                    # 25%, 50%, 75%: الربعيات
+                                    # max: القيمة الأقصى
+                                </div>
+
+                                <h3>الرسوم البيانية (Histograms)</h3>
+                                <p>تظهر توزيع القيم في فئات.</p>
+                                <div class="code-block">
+                                    import matplotlib.pyplot as plt
+
+                                    plt.figure(figsize=(10, 6))
+                                    df['age'].hist(bins=30, edgecolor='black')
+                                    plt.title('توزيع العمر')
+                                    plt.xlabel('العمر')
+                                    plt.ylabel('التكرار')
+                                    plt.show()
+                                </div>
+
+                                <h3>أنواع التوزيعات</h3>
+
+                                <h4>1️⃣ التوزيع الطبيعي (Normal Distribution)</h4>
+                                <p>جرس الشكل، متماثل حول المتوسط.</p>
+
+                                <h4>2️⃣ التوزيع المنحرف لليمين (Right-Skewed)</h4>
+                                <p>ذيل طويل على اليمين، مثل الدخل.</p>
+
+                                <h4>3️⃣ التوزيع المنحرف لليسار (Left-Skewed)</h4>
+                                <p>ذيل طويل على اليسار.</p>
+
+                                <h4>4️⃣ التوزيع متعدد الأوضاع (Multimodal)</h4>
+                                <p>عدة قمم، يشير إلى مجموعات مختلفة.</p>
+
+                                <h3>الانحراف والتفرطح (Skewness & Kurtosis)</h3>
+                                <div class="code-block">
+                                    from scipy.stats import skew, kurtosis
+
+                                    skewness = skew(df['salary'])
+                                    kurt = kurtosis(df['salary'])
+
+                                    print(f"الانحراف: {skewness}")
+                                    print(f"التفرطح: {kurt}")
+                                </div>
+                            </div>
+
+                            <h2>اليوم 27: الرسوم البيانية والمقارنات</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day27-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day27-exp" class="tab-content active">
+                                <h3>Boxplots (الرسوم الصندوقية)</h3>
+                                <p>تظهر التوزيع والقيم الشاذة.</p>
+                                <div class="code-block">
+                                    import seaborn as sns
+
+                                    plt.figure(figsize=(10, 6))
+                                    sns.boxplot(x='city', y='salary', data=df)
+                                    plt.title('توزيع الراتب حسب المدينة')
+                                    plt.show()
+                                </div>
+
+                                <h3>مقارنة المجموعات</h3>
+                                <div class="code-block">
+                                    # مقارنة الرواتب حسب القسم
+                                    df.groupby('department')['salary'].describe()
+
+                                    # رسم مقارنة
+                                    sns.boxplot(x='department', y='salary', data=df)
+                                    plt.show()
+                                </div>
+
+                                <h3>Violin Plots</h3>
+                                <p>تجمع بين boxplot و histogram.</p>
+                                <div class="code-block">
+                                    sns.violinplot(x='city', y='salary', data=df)
+                                    plt.show()
+                                </div>
+                            </div>
+
+                            <h2>اليوم 28: التجميع والتجميع (Grouping & Aggregation)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day28-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day28-exp" class="tab-content active">
+                                <h3>groupby الأساسي</h3>
+                                <div class="code-block">
+                                    # متوسط الراتب حسب المدينة
+                                    df.groupby('city')['salary'].mean()
+
+                                    # عدد الموظفين حسب القسم
+                                    df.groupby('department').size()
+
+                                    # إحصائيات متعددة
+                                    df.groupby('city')['salary'].agg(['mean', 'std', 'min', 'max'])
+                                </div>
+
+                                <h3>Aggregation متقدم</h3>
+                                <div class="code-block">
+                                    # تجميع متعدد الأعمدة
+                                    df.groupby(['city', 'department']).agg({
+                                    'salary': ['mean', 'count'],
+                                    'age': 'mean'
+                                    })
+                                </div>
+
+                                <h3>Simpson's Paradox (مفارقة سيمبسون)</h3>
+                                <p>ظاهرة حيث تتغير الاتجاهات عند تجميع البيانات.</p>
+                                <div class="example-box">
+                                    <strong>مثال:</strong> قد يبدو أن الراتب أعلى في المدينة A عموماً، لكن عند مقارنة
+                                    نفس الوظيفة، يكون أعلى في المدينة B!
+                                </div>
+                            </div>
+
+                            <h2>اليوم 29: الارتباطات (Correlations)</h2>
+                            <div class="tabs">
+                                <button class="tab-btn active"
+                                    onclick="switchTab(event, 'week6-day29-exp')">الشرح</button>
+                            </div>
+
+                            <div id="week6-day29-exp" class="tab-content active">
+                                <h3>معامل الارتباط (Correlation Coefficient)</h3>
+                                <p>يقيس قوة العلاقة بين متغيرين.</p>
+                                <div class="code-block">
+                                    # حساب الارتباط
+                                    correlation = df['age'].corr(df['salary'])
+                                    print(f"الارتباط: {correlation}")
+
+                                    # مصفوفة الارتباط
+                                    corr_matrix = df[['age', 'salary', 'experience']].corr()
+                                    print(corr_matrix)
+                                </div>
+
+                                <h3>تفسير الارتباط</h3>
+                                <ul>
+                                    <li>🟢 <strong>+1:</strong> ارتباط إيجابي تام (كلما زاد أحدهما زاد الآخر)</li>
+                                    <li>🟡 <strong>0:</strong> لا يوجد ارتباط</li>
+                                    <li>🔴 <strong>-1:</strong> ارتباط سلبي تام (كلما زاد أحدهما قل الآخر)</li>
+                                </ul>
+
+                                <h3>Heatmap (خريطة الحرارة)</h3>
+                                <div class="code-block">
+                                    import seaborn as sns
+
+                                    plt.figure(figsize=(10, 8))
+                                    sns.heatmap(df.corr(), annot=True, cmap='coolwarm', center=0)
+                                    plt.title('مصفوفة الارتباط')
+                                    plt.show()
+                                </div>
+
+                                <h3>تحذير: الارتباط ≠ السببية</h3>
+                                <div class="warning-box">
+                                    <strong>⚠️ تحذير مهم:</strong> وجود ارتباط بين متغيرين لا يعني أن أحدهما يسبب الآخر!
+                                    <br>مثال: عدد الآيس كريم المباع يرتبط بعدد الغرقى، لكن الآيس كريم لا يسبب الغرق!
+                                    <br>السبب: كلاهما يزداد في الصيف (متغير ثالث).
+                                </div>
+
+                                <h3>Multicollinearity (التعددية الخطية)</h3>
+                                <p>عندما يكون هناك ارتباط قوي جداً بين متغيرات مستقلة.</p>
+                                <div class="code-block">
+                                    # البحث عن ارتباطات قوية
+                                    high_corr = corr_matrix[corr_matrix > 0.9]
+                                    print(high_corr)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأسبوع الخامس: هندسة الميزات II -->
+                        <div class="page" id="week5">
+                            <h2>📊 الأسبوع الخامس: هندسة الميزات II (Advanced Feature Engineering)</h2>
+                            <p class="intro-text">تقنيات متقدمة لإنشاء ميزات جديدة وقوية من البيانات الموجودة.</p>
+
+                            <!-- اليوم 21: Domain-Driven Features -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 21: Domain-Driven Features (الميزات المدفوعة بالمجال)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w5d21-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w5d21-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w5d21-explain" class="tab-content active">
+                                    <h4>🎯 ما هي Domain-Driven Features؟</h4>
+                                    <p>هي ميزات جديدة تُنشأ بناءً على معرفة المجال (Domain Knowledge) وليس بشكل عشوائي.
+                                        هذه الميزات غالباً ما تكون الأقوى والأكثر فائدة.</p>
+
+                                    <h4>💡 أمثلة:</h4>
+                                    <div class="info-box">
+                                        <strong>مثال 1: التنبؤ بأسعار المنازل</strong>
+                                        <br>بدلاً من استخدام الطول والعرض بشكل منفصل، أنشئ ميزة جديدة: المساحة = الطول ×
+                                        العرض
+                                        <br><br>
+                                        <strong>مثال 2: التنبؤ بالراتب</strong>
+                                        <br>بدلاً من سنوات الخبرة فقط، أنشئ ميزات جديدة:
+                                        <br>- الخبرة المربعة (لالتقاط التأثير غير الخطي)
+                                        <br>- الخبرة × التعليم (التفاعل بين الخبرة والتعليم)
+                                        <br><br>
+                                        <strong>مثال 3: التنبؤ بالطلب على المنتج</strong>
+                                        <br>- اليوم من الأسبوع (يوم الجمعة قد يكون مختلفاً عن يوم الاثنين)
+                                        <br>- هل هو عطلة رسمية؟
+                                        <br>- الموسم (صيف، شتاء، إلخ)
+                                    </div>
+
+                                    <h4>🔧 كيفية إنشاء Domain-Driven Features:</h4>
+                                    <p><strong>الخطوة 1:</strong> فهم المشكلة والمجال بعمق</p>
+                                    <p><strong>الخطوة 2:</strong> التفكير في العلاقات والتفاعلات بين المتغيرات</p>
+                                    <p><strong>الخطوة 3:</strong> إنشاء ميزات جديدة بناءً على هذه العلاقات</p>
+                                    <p><strong>الخطوة 4:</strong> اختبار تأثير هذه الميزات على النموذج</p>
+                                </div>
+
+                                <div id="w5d21-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        import numpy as np
+                                        from datetime import datetime, timedelta
+
+                                        # البيانات الأصلية
+                                        df = pd.DataFrame({
+                                        'date': pd.date_range('2024-01-01', periods=100),
+                                        'length': [10, 12, 15, 18, 20, 22, 25, 28, 30, 32],
+                                        'width': [8, 10, 12, 14, 16, 18, 20, 22, 24, 26],
+                                        'experience_years': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                                        'education_level': [1, 2, 3, 1, 2, 3, 1, 2, 3, 1] # 1=ثانوي، 2=بكالوريوس،
+                                        3=ماجستير
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df.head())
+                                        print()
+
+                                        # Domain-Driven Features
+                                        # 1. المساحة = الطول × العرض
+                                        df['area'] = df['length'] * df['width']
+
+                                        # 2. الخبرة المربعة
+                                        df['experience_squared'] = df['experience_years'] ** 2
+
+                                        # 3. التفاعل: الخبرة × التعليم
+                                        df['experience_education_interaction'] = df['experience_years'] *
+                                        df['education_level']
+
+                                        # 4. استخراج الميزات من التاريخ
+                                        df['day_of_week'] = df['date'].dt.dayofweek
+                                        df['month'] = df['date'].dt.month
+                                        df['quarter'] = df['date'].dt.quarter
+                                        df['is_weekend'] = df['day_of_week'].isin([5, 6]).astype(int)
+
+                                        print("بعد إنشاء Domain-Driven Features:")
+                                        print(df.head())
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 22: Interactions -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 22: Interactions (التفاعلات بين الميزات)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w5d22-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w5d22-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w5d22-explain" class="tab-content active">
+                                    <h4>🎯 ما هي Interactions؟</h4>
+                                    <p>التفاعلات هي ميزات جديدة تُنشأ من خلال دمج متغيرين أو أكثر. تعكس التفاعلات
+                                        العلاقات غير الخطية بين المتغيرات.</p>
+
+                                    <h4>🔧 أنواع التفاعلات:</h4>
+
+                                    <h5>1️⃣ Multiplicative Interactions (التفاعلات الضربية)</h5>
+                                    <p>ضرب متغيرين معاً: Z = X × Y</p>
+                                    <div class="code-block">
+                                        import pandas as pd
+
+                                        df = pd.DataFrame({
+                                        'age': [20, 30, 40, 50],
+                                        'income': [1000, 2000, 3000, 4000]
+                                        })
+
+                                        # التفاعل الضربي
+                                        df['age_income_interaction'] = df['age'] * df['income']
+                                        print(df)
+                                    </div>
+
+                                    <h5>2️⃣ Additive Interactions (التفاعلات الجمعية)</h5>
+                                    <p>جمع متغيرين معاً: Z = X + Y</p>
+                                    <div class="code-block">
+                                        # التفاعل الجمعي
+                                        df['age_income_sum'] = df['age'] + df['income']
+                                        print(df)
+                                    </div>
+
+                                    <h5>3️⃣ Logical Interactions (التفاعلات المنطقية)</h5>
+                                    <p>دمج متغيرات بناءً على شروط منطقية</p>
+                                    <div class="code-block">
+                                        # التفاعل المنطقي
+                                        df['high_age_and_income'] = ((df['age'] > 30) & (df['income'] >
+                                        2000)).astype(int)
+                                        print(df)
+                                    </div>
+                                </div>
+
+                                <div id="w5d22-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        from sklearn.preprocessing import PolynomialFeatures
+
+                                        # البيانات
+                                        df = pd.DataFrame({
+                                        'feature1': [1, 2, 3, 4, 5],
+                                        'feature2': [2, 4, 6, 8, 10]
+                                        })
+
+                                        print("البيانات الأصلية:")
+                                        print(df)
+                                        print()
+
+                                        # إنشاء Interactions يدوياً
+                                        df['feature1_feature2'] = df['feature1'] * df['feature2']
+                                        df['feature1_squared'] = df['feature1'] ** 2
+                                        df['feature2_squared'] = df['feature2'] ** 2
+
+                                        print("بعد إضافة Interactions:")
+                                        print(df)
+                                        print()
+
+                                        # استخدام PolynomialFeatures لإنشاء جميع التفاعلات تلقائياً
+                                        poly = PolynomialFeatures(degree=2, include_bias=False)
+                                        X_poly = poly.fit_transform(df[['feature1', 'feature2']])
+                                        df_poly = pd.DataFrame(X_poly, columns=poly.get_feature_names_out(['feature1',
+                                        'feature2']))
+                                        print("باستخدام PolynomialFeatures:")
+                                        print(df_poly)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 23: Polynomial Features -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 23: Polynomial Features (الميزات متعددة الحدود)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w5d23-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w5d23-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w5d23-explain" class="tab-content active">
+                                    <h4>🎯 ما هي Polynomial Features؟</h4>
+                                    <p>إنشاء ميزات جديدة من خلال رفع المتغيرات إلى قوى مختلفة وإنشاء تفاعلات بينها.</p>
+
+                                    <h4>📊 مثال:</h4>
+                                    <p>إذا كان لديك متغيرين X و Y، فإن Polynomial Features من الدرجة 2 ستنشئ:</p>
+                                    <div class="info-box">
+                                        1, X, Y, X², XY, Y²
+                                    </div>
+
+                                    <h4>🔧 كيفية الاستخدام:</h4>
+                                    <div class="code-block">
+                                        from sklearn.preprocessing import PolynomialFeatures
+                                        import numpy as np
+
+                                        # البيانات الأصلية
+                                        X = np.array([[1, 2], [3, 4], [5, 6]])
+
+                                        # إنشاء Polynomial Features من الدرجة 2
+                                        poly = PolynomialFeatures(degree=2)
+                                        X_poly = poly.fit_transform(X)
+                                        print("البيانات الأصلية:")
+                                        print(X)
+                                        print()
+                                        print("Polynomial Features:")
+                                        print(X_poly)
+                                        print()
+                                        print("أسماء الميزات:")
+                                        print(poly.get_feature_names_out(['x1', 'x2']))
+                                    </div>
+
+                                    <h4>⚠️ تحذيرات:</h4>
+                                    <div class="warning-box">
+                                        <strong>⚠️ الحذر من Curse of Dimensionality:</strong>
+                                        <br>مع زيادة الدرجة (degree)، يزداد عدد الميزات بشكل هائل!
+                                        <br><br>
+                                        - 10 متغيرات + degree 2 = 65 ميزة
+                                        <br>- 10 متغيرات + degree 3 = 286 ميزة
+                                        <br>- 10 متغيرات + degree 4 = 1001 ميزة
+                                        <br><br>
+                                        هذا قد يؤدي إلى Overfitting وبطء في التدريب!
+                                    </div>
+                                </div>
+
+                                <div id="w5d23-examples" class="tab-content">
+                                    <h4>📝 مثال عملي شامل:</h4>
+                                    <div class="code-block">
+                                        import pandas as pd
+                                        from sklearn.preprocessing import PolynomialFeatures
+                                        from sklearn.linear_model import LinearRegression
+                                        from sklearn.model_selection import train_test_split
+                                        from sklearn.metrics import mean_squared_error
+                                        import numpy as np
+
+                                        # البيانات
+                                        X = np.array([[1], [2], [3], [4], [5]])
+                                        y = np.array([1, 4, 9, 16, 25]) # y = x^2
+
+                                        # بدون Polynomial Features
+                                        model1 = LinearRegression()
+                                        model1.fit(X, y)
+                                        y_pred1 = model1.predict(X)
+                                        mse1 = mean_squared_error(y, y_pred1)
+                                        print("بدون Polynomial Features:")
+                                        print(f"MSE: {mse1:.2f}")
+                                        print()
+
+                                        # مع Polynomial Features من الدرجة 2
+                                        poly = PolynomialFeatures(degree=2)
+                                        X_poly = poly.fit_transform(X)
+                                        model2 = LinearRegression()
+                                        model2.fit(X_poly, y)
+                                        y_pred2 = model2.predict(X_poly)
+                                        mse2 = mean_squared_error(y, y_pred2)
+                                        print("مع Polynomial Features (degree=2):")
+                                        print(f"MSE: {mse2:.2f}")
+                                        print()
+                                        print(f"التحسن: {((mse1 - mse2) / mse1 * 100):.1f}%")
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- اليوم 24: Feature Selection -->
+                            <div class="lesson">
+                                <h3>📌 اليوم 24: Feature Selection (اختيار الميزات)</h3>
+                                <div class="tabs">
+                                    <button class="tab-btn active"
+                                        onclick="switchTab(event, 'w5d24-explain')">الشرح</button>
+                                    <button class="tab-btn" onclick="switchTab(event, 'w5d24-examples')">أمثلة
+                                        عملية</button>
+                                </div>
+
+                                <div id="w5d24-explain" class="tab-content active">
+                                    <h4>🎯 لماذا نختار الميزات؟</h4>
+                                    <p>ليست جميع الميزات مفيدة! بعضها قد يكون:</p>
+                                    <div class="info-box">
+                                        ❌ غير ذي صلة بالمتغير الهدف
+                                        <br>❌ مرتبط بشكل قوي بميزات أخرى (Multicollinearity)
+                                        <br>❌ يزيد من تعقيد النموذج دون تحسين الأداء
+                                    </div>
+                                    <p>اختيار الميزات يساعد في:</p>
+                                    <div class="info-box">
+                                        ✅ تحسين أداء النموذج
+                                        <br>✅ تقليل وقت التدريب
+                                        <br>✅ تقليل الذاكرة المستخدمة
+                                        <br>✅ تحسين قابلية التفسير
+                                    </div>
+
+                                    <h4>🔧 طرق Feature Selection:</h4>
+
+                                    <h5>1️⃣ Variance Threshold</h5>
+                                    <p>إزالة الميزات التي لا تختلف كثيراً (variance منخفضة جداً).</p>
+                                    <div class="code-block">
+                                        from sklearn.feature_selection import VarianceThreshold
+                                        import numpy as np
+
+                                        X = np.array([
+                                        [0, 0, 1],
+                                        [0, 1, 1],
+                                        [0, 1, 1],
+                                        [0, 1, 1]
+                                        ])
+
+                                        # إزالة الميزات بـ variance < 0.01 selector=VarianceThreshold(threshold=0.01)
+                                            X_filtered=selector.fit_transform(X) print("الميزات المختارة:")
+                                            print(X_filtered) print() print("أسماء الميزات المختارة:")
+                                            print(selector.get_support()) </div>
+
+                                            <h5>2️⃣ Correlation Analysis</h5>
+                                            <p>إزالة الميزات المرتبطة بشكل قوي مع بعضها.</p>
+                                            <div class="code-block">
+                                                import pandas as pd
+
+                                                df = pd.DataFrame({
+                                                'feature1': [1, 2, 3, 4, 5],
+                                                'feature2': [2, 4, 6, 8, 10], # مرتبطة بشكل قوي مع feature1
+                                                'feature3': [5, 4, 3, 2, 1]
+                                                })
+
+                                                # حساب الارتباطات
+                                                corr_matrix = df.corr()
+                                                print("مصفوفة الارتباط:")
+                                                print(corr_matrix)
+                                            </div>
+
+                                            <h5>3️⃣ Feature Importance</h5>
+                                            <p>استخدام نموذج (مثل Random Forest) لحساب أهمية كل ميزة.</p>
+                                            <div class="code-block">
+                                                from sklearn.ensemble import RandomForestClassifier
+                                                from sklearn.datasets import load_iris
+
+                                                # البيانات
+                                                X, y = load_iris(return_X_y=True)
+
+                                                # تدريب النموذج
+                                                model = RandomForestClassifier()
+                                                model.fit(X, y)
+
+                                                # الحصول على أهمية الميزات
+                                                importances = model.feature_importances_
+                                                print("أهمية الميزات:")
+                                                for i, importance in enumerate(importances):
+                                                print(f"Feature {i}: {importance:.4f}")
+                                            </div>
+
+                                            <h5>4️⃣ Recursive Feature Elimination (RFE)</h5>
+                                            <p>إزالة الميزات بشكل متكرر واختبار الأداء.</p>
+                                            <div class="code-block">
+                                                from sklearn.feature_selection import RFE
+                                                from sklearn.linear_model import LogisticRegression
+
+                                                # البيانات
+                                                X, y = load_iris(return_X_y=True)
+
+                                                # اختيار أفضل 2 ميزة
+                                                model = LogisticRegression(max_iter=200)
+                                                rfe = RFE(model, n_features_to_select=2)
+                                                rfe.fit(X, y)
+
+                                                print("الميزات المختارة:")
+                                                print(rfe.get_support())
+                                                print()
+                                                print("ترتيب الميزات:")
+                                                print(rfe.ranking_)
+                                            </div>
+                                    </div>
+
+                                    <div id="w5d24-examples" class="tab-content">
+                                        <h4>📝 مثال عملي شامل:</h4>
+                                        <div class="code-block">
+                                            import pandas as pd
+                                            from sklearn.feature_selection import VarianceThreshold, SelectKBest,
+                                            f_classif
+                                            from sklearn.ensemble import RandomForestClassifier
+                                            from sklearn.datasets import load_iris
+
+                                            # البيانات
+                                            X, y = load_iris(return_X_y=True)
+                                            df = pd.DataFrame(X, columns=['sepal_length', 'sepal_width', 'petal_length',
+                                            'petal_width'])
+
+                                            print("البيانات الأصلية:")
+                                            print(f"عدد الميزات: {X.shape[1]}")
+                                            print()
+
+                                            # طريقة 1: Variance Threshold
+                                            print("طريقة 1: Variance Threshold")
+                                            var_selector = VarianceThreshold(threshold=0.1)
+                                            X_var = var_selector.fit_transform(X)
+                                            print(f"عدد الميزات بعد الفلترة: {X_var.shape[1]}")
+                                            print()
+
+                                            # طريقة 2: SelectKBest
+                                            print("طريقة 2: SelectKBest")
+                                            kbest_selector = SelectKBest(f_classif, k=2)
+                                            X_kbest = kbest_selector.fit_transform(X, y)
+                                            print(f"عدد الميزات المختارة: {X_kbest.shape[1]}")
+                                            print()
+
+                                            # طريقة 3: Feature Importance
+                                            print("طريقة 3: Feature Importance (Random Forest)")
+                                            model = RandomForestClassifier()
+                                            model.fit(X, y)
+                                            importances = model.feature_importances_
+                                            for i, importance in enumerate(importances):
+                                            print(f"{df.columns[i]}: {importance:.4f}")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <footer>
+                    <p>🐍 دورة علم البيانات الشاملة | تم الإنشاء بواسطة Manus</p>
+                    <p>جميع الحقوق محفوظة © 2024</p>
+                </footer>
+
+                <script>
+                    // تبديل الوضع الداكن
+                    function toggleTheme() {
+                        const body = document.body;
+                        body.classList.toggle('dark-mode');
+                        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+                    }
+
+                    // تحميل الوضع المحفوظ
+                    window.addEventListener('load', () => {
+                        const savedTheme = localStorage.getItem('theme');
+                        if (savedTheme === 'dark') {
+                            document.body.classList.add('dark-mode');
+                        }
+                    });
+
+                    // عرض الصفحات
+                    function showPage(pageId) {
+                        // تفعيل الصفحة المطلوبة
+                        const pages = document.querySelectorAll('.page');
+                        pages.forEach(page => page.classList.remove('active'));
+                        const targetPage = document.getElementById(pageId);
+                        if (targetPage) targetPage.classList.add('active');
+
+                        // تفعيل عنصر الشريط الجانبي المطابق عبر data-page (لا نعتمد على event)
+                        const items = document.querySelectorAll('.sidebar-item');
+                        items.forEach(item => item.classList.remove('active'));
+                        const activeItem = document.querySelector('.sidebar-item[data-page="' + pageId + '"]');
+                        if (activeItem) activeItem.classList.add('active');
+
+                        window.scrollTo(0, 0);
+                    }
+
+                    // تبديل التبويبات
+                    function switchTab(event, tabId) {
+                        const tabs = event.target.parentElement.querySelectorAll('.tab-btn');
+                        const contents = event.target.parentElement.parentElement.querySelectorAll('.tab-content');
+
+                        tabs.forEach(tab => tab.classList.remove('active'));
+                        contents.forEach(content => content.classList.remove('active'));
+
+                        event.target.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    }
+
+                    // تطبيق Syntax Highlighting على كل كود بلوك
+                    window.addEventListener('load', () => {
+                        document.querySelectorAll('.code-block').forEach((block) => {
+                            const code = block.textContent;
+                            block.innerHTML = '<pre><code class="language-python">' + escapeHtml(code) + '</code></pre>';
+                            const codeElement = block.querySelector('code');
+                            hljs.highlightElement(codeElement);
+                        });
+                    });
+
+                    // دالة للهرب من HTML
+                    function escapeHtml(text) {
+                        const map = {
+                            '&': '&amp;',
+                            '<': '&lt;',
+                            '>': '&gt;',
+                            '"': '&quot;',
+                            "'": '&#039;'
+                        };
+                        return text.replace(/[&<>"']/g, m => map[m]);
+                    }
+                </script>
+</body>
+
+</html>
