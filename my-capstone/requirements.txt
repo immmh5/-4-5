@@ -1,1 +1,0 @@
-pandas\nnumpy\nmatplotlib\nseaborne\nscikit-learn
